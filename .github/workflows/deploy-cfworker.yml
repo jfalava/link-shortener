@@ -23,6 +23,7 @@ jobs:
           sparse-checkout: |
             cloudflare
             pnpm-workspace.yaml
+            pnpm-lock.yaml
             package.json
           sparse-checkout-cone-mode: false
 
