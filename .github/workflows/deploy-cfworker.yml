@@ -10,8 +10,11 @@ on:
       - dev
 
 jobs:
-  test-and-deploy:
+  deploy-cf-worker:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cloudflare
 
     steps:
       - uses: actions/checkout@v4
@@ -23,15 +26,21 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cd cloudflare
           npm install
           npm install -g pnpm
+
+      - name: Configure KV namespace
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        env:
+          CF_KV_BINDING: ${{ secrets.CF_KV_BINDING }}
+          CF_KV_ID: ${{ secrets.CF_KV_ID }}
+        run: |
+          sed -i "s/<BINDING_NAME>/$CF_KV_BINDING/g" wrangler.toml
+          sed -i "s/<NAMESPACE_ID>/$CF_KV_ID/g" wrangler.toml
 
       - name: Deploy to Cloudflare
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          cd cloudflare
-          pnpx wrangler deploy
+        run: pnpx wrangler deploy
