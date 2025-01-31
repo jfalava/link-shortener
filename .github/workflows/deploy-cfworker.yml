@@ -39,7 +39,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --filter @cloudflare/link-shortener-cloudflare...
 
-      - name: Configure KV namespace
+      - name: Substitute KV placeholders in wrangler.toml
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         env:
           CF_KV_BINDING: ${{ secrets.CF_KV_BINDING }}
