@@ -12,6 +12,9 @@ on:
 jobs:
   deploy-cf-worker:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cloudflare
 
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +26,6 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cd cloudflare
           npm install
           npm install -g pnpm
 
@@ -33,7 +35,6 @@ jobs:
           CF_KV_BINDING: ${{ secrets.CF_KV_BINDING }}
           CF_KV_ID: ${{ secrets.CF_KV_ID }}
         run: |
-          cd cloudflare
           sed -i "s/<BINDING_NAME>/$CF_KV_BINDING/g" wrangler.toml
           sed -i "s/<NAMESPACE_ID>/$CF_KV_ID/g" wrangler.toml
 
@@ -42,6 +43,4 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          cd cloudflare
-          pnpx wrangler deploy
+        run: pnpx wrangler deploy
