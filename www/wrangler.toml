@@ -1,0 +1,5 @@
+name = "link-shortener-www"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-01-29"
+compatibility_flags = ["nodejs_compat"]
+
