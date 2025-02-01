@@ -2,9 +2,7 @@ name = "link-shortener-backend"
 main = "src/index.ts"
 compatibility_date = "2025-01-29"
 compatibility_flags = ["nodejs_compat"]
-routes = [
-  { pattern = "jfa.ovh", custom_domain = true },
-]
+routes = [{ pattern = "jfa.ovh", custom_domain = true }]
 
 [observability]
 enabled = true
@@ -15,3 +13,7 @@ mode = "smart"
 [[kv_namespaces]]
 binding = "link-shortener-kv"
 id = "fef36c119fca41f4ab8e2e99ab500b4a"
+
+[[kv_namespaces]]
+binding = "link-shortener-ratelimit"
+id = "12d6985af1194ec698c11e57d9b67169"
