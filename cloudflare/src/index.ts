@@ -118,6 +118,17 @@ export default {
 						return new Response('Invalid URL', { status: 400, headers });
 					}
 
+					// Check for duplicate entry
+					const existingKey = await env['link-shortener-kv'].list({ prefix: '', limit: 1000 });
+					for (const item of existingKey.keys) {
+						const storedUrl = await env['link-shortener-kv'].get(item.name);
+						if (storedUrl === body.url) {
+							return new Response(JSON.stringify({ key: item.name }), {
+								headers: { 'Content-Type': 'application/json', ...headers },
+							});
+						}
+					}
+
 					// Generate unique key
 					let key: string, exists: string | null;
 					do {
