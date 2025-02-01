@@ -4,12 +4,15 @@ const RATE_LIMIT = {
 };
 
 const generateRandomString = (): string => {
-	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	let result = '';
-	for (let i = 0; i < 6; i++) {
+	for (let i = 0; i < 9; i++) {
 		result += chars.charAt(Math.floor(Math.random() * chars.length));
+		if ((i + 1) % 3 === 0 && i !== 8) {
+			result += '-';
+		}
 	}
-	return `${result.slice(0, 3)}-${result.slice(3)}`;
+	return result;
 };
 
 const isAllowedOrigin = (origin: string | null): boolean => {
