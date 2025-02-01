@@ -13,5 +13,5 @@ enabled = true
 mode = "smart"
 
 [[kv_namespaces]]
-binding = "<BINDING_NAME>"
-id = "<NAMESPACE_ID>"
+binding = "link-shortener-kv"
+id = "fef36c119fca41f4ab8e2e99ab500b4a"
