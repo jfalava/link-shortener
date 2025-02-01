@@ -5,7 +5,9 @@ import blackIcon from "public/favicon/favicon.black.webp";
 
 import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
 
-const theme = "dark";
+const deviceDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+const storedTheme = localStorage.getItem("theme");
+const theme = storedTheme || (deviceDarkTheme.matches ? "dark" : "light");
 const icon = theme === "light" ? blackIcon : whiteIcon;
 
 import { getLocale } from "@/utils/get-locale";
@@ -28,7 +30,6 @@ const locale = getLocale();
       : "/favicon/favicon.black.webp";
   };
 
-  // Initialize theme based on localStorage or system preference
   const storedTheme = localStorage.getItem("theme");
   if (storedTheme) {
     setTheme(storedTheme === "dark");
@@ -38,7 +39,6 @@ const locale = getLocale();
 
   deviceDarkTheme.addEventListener("change", (e) => {
     if (!localStorage.getItem("theme")) {
-      // Only follow system theme if user hasn't set a preference
       setTheme(e.matches);
     }
   });

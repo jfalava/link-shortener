@@ -12,36 +12,38 @@ import { getLocale } from "@/utils/get-locale";
 const locale = getLocale();
 ---
 
-<div class="grid gap-y-3 opacity-0" id="shortened-link-section">
-  <div class="flex justify-center items-center gap-x-3">
-    <div
-      class="flex-1 p-3 border border-solid border-bwhite dark:border-bblack rounded-xl overflow-x-scroll"
-    >
-      <p id="shortened-link" class="text-mono font-light"></p>
-    </div>
-    <button
-      id="copy-button-element"
-      class="cursor-pointer"
-      aria-label={localizedCopyButton[locale]}
-      title={localizedCopyButton[locale]}
-    >
-      <div class="relative">
-        <div class="relative" id="copy-button">
-          <CopyIcon />
-        </div>
-        <div class="absolute opacity-0 inset-0" id="ok-button">
-          <OKIcon />
-        </div>
+<div class="absolute">
+  <div class="grid gap-y-3 opacity-0" id="shortened-link-section">
+    <div class="flex justify-center items-center gap-x-3">
+      <div
+        class="flex-1 p-3 border border-solid border-bwhite dark:border-bblack rounded-xl overflow-x-scroll"
+      >
+        <p id="shortened-link" class="text-mono font-light"></p>
       </div>
-    </button>
+      <button
+        id="copy-button-element"
+        class="cursor-pointer"
+        aria-label={localizedCopyButton[locale]}
+        title={localizedCopyButton[locale]}
+      >
+        <div class="relative">
+          <div class="relative" id="copy-button">
+            <CopyIcon />
+          </div>
+          <div class="absolute opacity-0 inset-0" id="ok-button">
+            <OKIcon />
+          </div>
+        </div>
+      </button>
+    </div>
+    <Button
+      id="Shorten more links"
+      ariaBusy={false}
+      ariaLabel={localizedShortenMore[locale]}
+    >
+      <p class="">{localizedShortenMore[locale]}</p>
+    </Button>
   </div>
-  <Button
-    id="Shorten more links"
-    ariaBusy={false}
-    ariaLabel={localizedShortenMore[locale]}
-  >
-    <p class="">{localizedShortenMore[locale]}</p>
-  </Button>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
