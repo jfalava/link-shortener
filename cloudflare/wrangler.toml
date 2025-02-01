@@ -1,0 +1,17 @@
+name = "link-shortener-backend"
+main = "src/index.ts"
+compatibility_date = "2025-01-29"
+compatibility_flags = ["nodejs_compat"]
+routes = [
+  { pattern = "jfa.ovh", custom_domain = true },
+]
+
+[observability]
+enabled = true
+
+[placement]
+mode = "smart"
+
+[[kv_namespaces]]
+binding = "<BINDING_NAME>"
+id = "<NAMESPACE_ID>"
