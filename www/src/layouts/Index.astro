@@ -1,17 +1,19 @@
 ---
-import Master from "@/layouts/Master.astro"
-import Main from "@/components/layout/Main.astro"
-import PageTitle from "@/components/PageTitle.astro"
-import SubmitLink from "@/components/SubmitLink.astro"
-import ShortenedLink from "@/components/link-output/ShortenedLink.astro"
+import Master from "@/layouts/Master.astro";
+import Main from "@/components/layout/Main.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import SubmitLink from "@/components/SubmitLink.astro";
+import ShortenedLink from "@/components/link-output/ShortenedLink.astro";
 ---
 
 <Master>
   <Main>
     <div class="grid justify-center gap-y-6">
-      <PageTitle/>
-      <SubmitLink/>
-      <ShortenedLink/>
+      <PageTitle />
+      <div class="[grid-template-areas:'shared'] grid">
+        <SubmitLink />
+        <ShortenedLink />
+      </div>
     </div>
   </Main>
 </Master>

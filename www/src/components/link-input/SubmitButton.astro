@@ -74,9 +74,10 @@ const locale = getLocale();
         const key = result.key;
         const shortenedUrl = `https://jfa.ovh/${key}`;
 
-        // Update the DOM elements
-        submitLinkSection.classList.add("opacity-0");
-        shortenedLinkSection.classList.remove("opacity-0");
+        submitLinkSection.classList.remove("visible");
+        submitLinkSection.classList.add("invisible");
+        shortenedLinkSection.classList.remove("invisible");
+        shortenedLinkSection.classList.add("visible");
         shortenedLink.textContent = shortenedUrl;
       } catch (error) {
         console.error("Error:", error);
