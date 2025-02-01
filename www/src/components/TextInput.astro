@@ -1,0 +1,13 @@
+---
+import { localizedTextInputPlaceholder, localizedShortenLinkButton } from "@/i18n/components/TextInput.i18n";
+import { getLocale } from "@/utils/get-locale"
+const locale = getLocale();
+---
+
+<div class="flex justify-between gap-x-3">
+  <input type="text" placeholder={localizedTextInputPlaceholder[locale]}
+  class="text-geist-mono font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-lg"/>
+  <button class="cursor-pointer text-geist p-3 border border-solid border-bwhite dark:border-bblack rounded-lg">
+    {localizedShortenLinkButton[locale]}
+  </button>
+</div>

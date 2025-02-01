@@ -1,0 +1,30 @@
+---
+import "@/styles/global.css"
+import PreloadFonts from "@/components/PreloadFonts.astro"
+import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n"
+import { getLocale } from "@/utils/get-locale"
+const locale = getLocale();
+---
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="/favicon/favicon.white.webp"
+      media="(prefers-color-scheme:dark)"
+    />
+    <link rel="icon" type="image/webp" href="/favicon/favicon.black.webp" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark, light" />
+    <PreloadFonts/>
+		<title>{localizedPageTitle[locale]} - JFA</title>
+	</head>
+	<body class="text-black bg-white dark:text-white dark:bg-black">
+		<slot />
+	</body>
+</html>

@@ -1,1 +1,37 @@
+:root {
+  color-scheme: light dark;
+}
+
 @import "tailwindcss";
+
+@theme {
+  --color-white: #f0f0f0;
+  --color-bwhite: #e0e0e0;
+  --color-black: #121212;
+  --color-bblack: #424242;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("https://static.jfa.dev/fonts/geist/geist-variable.woff2")
+    format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("https://static.jfa.dev/fonts/geist/geist-mono-variable.ttf")
+    format("ttf");
+  font-display: swap;
+}
+
+.text-geist {
+  font-family: "Geist", sans-serif;
+  font-weight: light;
+  font-style: normal;
+}
+
+.text-geist-mono {
+  font-family: "Geist Mono", monospace;
+  font-weight: light;
+  font-style: normal;
+}

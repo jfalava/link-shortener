@@ -37,7 +37,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install Dependencies
-        run: pnpm install --filter @cloudflare/link-shortener-cloudflare...
+        run: pnpm install --filter link-shortener-cloudflare...
 
       - name: Substitute KV placeholders in wrangler.toml
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'

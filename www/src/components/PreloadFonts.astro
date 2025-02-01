@@ -1,0 +1,36 @@
+---
+import { AstroFont } from "astro-font";
+---
+
+<AstroFont
+  config={[
+    {
+      name: "Geist",
+      src: [
+        {
+          weight: "400",
+          style: "normal",
+          path: 'https://static.jfa.dev/fonts/geist/geist-variable.woff2'
+        },
+      ],
+      preload: true,
+      display: "swap",
+      selector: "body",
+      fallback: "sans-serif",
+    },
+    {
+      name: "Geist Mono",
+      src: [
+        {
+          weight: "400",
+          style: "normal",
+          path: 'https://static.jfa.dev/fonts/geist/geist-mono-variable.ttf',
+        },
+      ],
+      preload: true,
+      display: "swap",
+      selector: "body",
+      fallback: "monospace",
+    },
+  ]}
+/>
