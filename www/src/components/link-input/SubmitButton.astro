@@ -14,6 +14,7 @@ interface SubmitButtonProps {
   text-geist
   p-3 border border-solid border-transparent
   bg-black text-white hover:bg-bblack
+  dark:bg-bwhite dark:text-bblack hover:text-bwhite
   transition-colors duration-100 ease-in-out
   rounded-3xl"
   id="submit-button"
@@ -57,7 +58,7 @@ interface SubmitButtonProps {
       loadingSpinner.style.opacity = "1";
 
       try {
-        const response = await fetch("https://jfa.ovh", {
+        const response = await fetch("https://jfa.ovh/api", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
