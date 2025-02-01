@@ -13,5 +13,8 @@ export default defineConfig({
   }),
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      external: ["path"].map((i) => `node:${i}`),
+    },
   },
 });
