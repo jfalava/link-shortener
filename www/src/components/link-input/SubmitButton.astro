@@ -37,8 +37,20 @@ const locale = getLocale();
     const loadingSpinner = document.getElementById(
       "loading-spinner",
     ) as HTMLDivElement;
+    const submitLinkSection = document.getElementById("submit-link-section");
+    const shortenedLinkSection = document.getElementById(
+      "shortened-link-section",
+    );
+    const shortenedLink = document.getElementById("shortened-link");
 
-    if (input && buttonText && loadingSpinner) {
+    if (
+      input &&
+      buttonText &&
+      loadingSpinner &&
+      submitLinkSection &&
+      shortenedLinkSection &&
+      shortenedLink
+    ) {
       const url = input.value;
 
       if (!url) {
@@ -59,7 +71,13 @@ const locale = getLocale();
         });
 
         const result = await response.json();
-        alert(`Shortened URL key: ${result.key}`);
+        const key = result.key;
+        const shortenedUrl = `https://jfa.ovh/${key}`;
+
+        // Update the DOM elements
+        submitLinkSection.classList.add("opacity-0");
+        shortenedLinkSection.classList.remove("opacity-0");
+        shortenedLink.textContent = shortenedUrl;
       } catch (error) {
         console.error("Error:", error);
         alert("Failed to shorten the URL");

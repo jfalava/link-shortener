@@ -42,37 +42,37 @@ const locale = getLocale();
   >
     <p class="">{localizedShortenMore[locale]}</p>
   </Button>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const copyButton = document.querySelector("#copy-button");
-      const okButton = document.querySelector("#ok-button");
-      const shortenedLink = document.querySelector("#shortened-link");
-      const copyButtonElement = document.querySelector("#copy-button-element");
-
-      if (copyButtonElement) {
-        copyButtonElement.addEventListener("click", async () => {
-          const textToCopy = shortenedLink?.textContent;
-          if (!textToCopy) return;
-
-          try {
-            await navigator.clipboard.writeText(textToCopy);
-
-            if (copyButton && okButton) {
-              // Hide copy button, show OK button
-              copyButton.classList.add("opacity-0", "inset-0");
-              okButton.classList.remove("opacity-0");
-
-              // Reset after 2 seconds
-              setTimeout(() => {
-                copyButton.classList.remove("opacity-0", "inset-0");
-                okButton.classList.add("opacity-0");
-              }, 2000);
-            }
-          } catch (err) {
-            console.error("Failed to copy text: ", err);
-          }
-        });
-      }
-    });
-  </script>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const copyButton = document.querySelector("#copy-button");
+    const okButton = document.querySelector("#ok-button");
+    const shortenedLink = document.querySelector("#shortened-link");
+    const copyButtonElement = document.querySelector("#copy-button-element");
+
+    if (copyButtonElement) {
+      copyButtonElement.addEventListener("click", async () => {
+        const textToCopy = shortenedLink?.textContent;
+        if (!textToCopy) return;
+
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+
+          if (copyButton && okButton) {
+            // Hide copy button, show OK button
+            copyButton.classList.add("opacity-0", "inset-0");
+            okButton.classList.remove("opacity-0");
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+              copyButton.classList.remove("opacity-0", "inset-0");
+              okButton.classList.add("opacity-0");
+            }, 2000);
+          }
+        } catch (err) {
+          console.error("Failed to copy text: ", err);
+        }
+      });
+    }
+  });
+</script>
