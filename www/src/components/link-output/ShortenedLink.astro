@@ -1,0 +1,78 @@
+---
+import {
+  localizedCopyButton,
+  localizedShortenMore,
+} from "@/i18n/components/ShortenedLink.i18n";
+
+import CopyIcon from "@/assets/CopyIcon.astro";
+import OKIcon from "@/assets/OKIcon.astro";
+import Button from "@/components/elements/Button.astro";
+
+import { getLocale } from "@/utils/get-locale";
+const locale = getLocale();
+---
+
+<div class="grid gap-y-3 opacity-0" id="shortened-link-section">
+  <div class="flex justify-center items-center gap-x-3">
+    <div
+      class="flex-1 p-3 border border-solid border-bwhite dark:border-bblack rounded-xl overflow-x-scroll"
+    >
+      <p id="shortened-link" class="text-mono font-light"></p>
+    </div>
+    <button
+      id="copy-button-element"
+      class="cursor-pointer"
+      aria-label={localizedCopyButton[locale]}
+      title={localizedCopyButton[locale]}
+    >
+      <div class="relative">
+        <div class="relative" id="copy-button">
+          <CopyIcon />
+        </div>
+        <div class="absolute opacity-0 inset-0" id="ok-button">
+          <OKIcon />
+        </div>
+      </div>
+    </button>
+  </div>
+  <Button
+    id="Shorten more links"
+    ariaBusy={false}
+    ariaLabel={localizedShortenMore[locale]}
+  >
+    <p class="">{localizedShortenMore[locale]}</p>
+  </Button>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const copyButton = document.querySelector("#copy-button");
+      const okButton = document.querySelector("#ok-button");
+      const shortenedLink = document.querySelector("#shortened-link");
+      const copyButtonElement = document.querySelector("#copy-button-element");
+
+      if (copyButtonElement) {
+        copyButtonElement.addEventListener("click", async () => {
+          const textToCopy = shortenedLink?.textContent;
+          if (!textToCopy) return;
+
+          try {
+            await navigator.clipboard.writeText(textToCopy);
+
+            if (copyButton && okButton) {
+              // Hide copy button, show OK button
+              copyButton.classList.add("opacity-0", "inset-0");
+              okButton.classList.remove("opacity-0");
+
+              // Reset after 2 seconds
+              setTimeout(() => {
+                copyButton.classList.remove("opacity-0", "inset-0");
+                okButton.classList.add("opacity-0");
+              }, 2000);
+            }
+          } catch (err) {
+            console.error("Failed to copy text: ", err);
+          }
+        });
+      }
+    });
+  </script>
+</div>

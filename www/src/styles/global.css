@@ -19,8 +19,8 @@
 }
 @font-face {
   font-family: "Geist Mono";
-  src: url("https://static.jfa.dev/fonts/geist/geist-mono-variable.ttf")
-    format("ttf");
+  src: url("https://static.jfa.dev/fonts/geist/geist-mono-variable.woff2")
+    format("woff2");
   font-display: swap;
 }
 

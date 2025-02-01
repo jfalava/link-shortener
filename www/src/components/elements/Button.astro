@@ -1,0 +1,24 @@
+---
+interface Props {
+  id: string;
+  ariaLabel: string;
+  ariaBusy: boolean;
+}
+
+const { id, ariaLabel, ariaBusy = false } = Astro.props;
+---
+
+<button
+  class="cursor-pointer
+  text-geist
+  p-3 border border-solid border-transparent
+  bg-black text-white hover:bg-bblack
+  dark:bg-white dark:text-black dark:hover:text-bblack dark:hover:bg-bwhite
+  transition-colors duration-100 ease-in-out
+  rounded-3xl"
+  id={id}
+  aria-label={ariaLabel}
+  aria-busy={ariaBusy}
+>
+  <slot />
+</button>

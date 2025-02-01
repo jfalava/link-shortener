@@ -1,25 +1,17 @@
 ---
 import { localizedShortenLinkButton } from "@/i18n/components/TextInput.i18n";
-import { getLocale } from "@/utils/get-locale";
-import LoadingSpinner from "@/assets/LoadingSpinner.astro";
-const locale = getLocale();
 
-interface SubmitButtonProps {
-  inputId: string;
-}
+import LoadingSpinner from "@/assets/LoadingSpinner.astro";
+import Button from "@/components/elements/Button.astro";
+
+import { getLocale } from "@/utils/get-locale";
+const locale = getLocale();
 ---
 
-<button
-  class="cursor-pointer
-  text-geist
-  p-3 border border-solid border-transparent
-  bg-black text-white hover:bg-bblack
-  dark:bg-bwhite dark:text-bblack hover:text-bwhite
-  transition-colors duration-100 ease-in-out
-  rounded-3xl"
+<Button
   id="submit-button"
-  aria-label="Shorten URL"
-  aria-busy="false"
+  ariaBusy={false}
+  ariaLabel={localizedShortenLinkButton[locale]}
 >
   <div class="relative">
     <p id="button-text" class="relative">
@@ -32,7 +24,7 @@ interface SubmitButtonProps {
       <LoadingSpinner />
     </div>
   </div>
-</button>
+</Button>
 
 <script>
   const button = document.getElementById("submit-button");

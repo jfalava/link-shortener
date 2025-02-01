@@ -1,36 +1,45 @@
 ---
-import { Image } from "astro:assets"
-import whiteIcon from "public/favicon/favicon.white.webp"
-import blackIcon from "public/favicon/favicon.black.webp"
+import { Image } from "astro:assets";
+import whiteIcon from "public/favicon/favicon.white.webp";
+import blackIcon from "public/favicon/favicon.black.webp";
 
-import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n"
+import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
 
-const theme = Astro.cookies.get('theme')?.value || 'dark'
-const icon = theme === 'light' ? blackIcon : whiteIcon
+const theme = "dark";
+const icon = theme === "light" ? blackIcon : whiteIcon;
 
-import { getLocale } from "@/utils/get-locale"
+import { getLocale } from "@/utils/get-locale";
 const locale = getLocale();
 ---
 
 <div class="flex items-center justify-center gap-x-6 select-none">
-  <Image
-    src={icon}
-    height={100}
-    width={100}
-    alt="JFA Icon"
-    id="themeIcon"
-  />
+  <Image src={icon} height={100} width={100} alt="JFA Icon" id="themeIcon" />
   <h1 class="text-geist font-bold text-3xl">{localizedPageTitle[locale]}</h1>
 </div>
 
 <script>
-  const deviceDarkTheme = window.matchMedia("(prefers-color-scheme: dark)")
-  const iconElement = document.getElementById('themeIcon') as HTMLImageElement
+  const deviceDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const iconElement = document.getElementById("themeIcon") as HTMLImageElement;
 
   const setTheme = (isDark: boolean) => {
-    document.cookie = `theme=${isDark ? 'dark' : 'light'}; path=/`
-    iconElement.src = isDark ? '/favicon/favicon.white.webp' : '/favicon/favicon.black.webp'
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    iconElement.src = isDark
+      ? "/favicon/favicon.white.webp"
+      : "/favicon/favicon.black.webp";
+  };
+
+  // Initialize theme based on localStorage or system preference
+  const storedTheme = localStorage.getItem("theme");
+  if (storedTheme) {
+    setTheme(storedTheme === "dark");
+  } else {
+    setTheme(deviceDarkTheme.matches);
   }
-  setTheme(deviceDarkTheme.matches)
-  deviceDarkTheme.addEventListener('change', e => setTheme(e.matches))
+
+  deviceDarkTheme.addEventListener("change", (e) => {
+    if (!localStorage.getItem("theme")) {
+      // Only follow system theme if user hasn't set a preference
+      setTheme(e.matches);
+    }
+  });
 </script>
