@@ -7,9 +7,10 @@ const locale = getLocale();
 <input
   id="long-url"
   type="text"
+  name="url"
+  aria-label={localizedTextInputPlaceholder[locale]}
+  pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
+  required
   placeholder={localizedTextInputPlaceholder[locale]}
-  class="text-geist-mono font-light
-p-3
-border border-solid border-bwhite dark:border-bblack
-rounded-xl"
+  class="text-mono font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-xl"
 />

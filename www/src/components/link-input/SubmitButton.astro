@@ -17,6 +17,8 @@ interface SubmitButtonProps {
   transition-colors duration-100 ease-in-out
   rounded-3xl"
   id="submit-button"
+  aria-label="Shorten URL"
+  aria-busy="false"
 >
   <div class="relative">
     <p id="button-text" class="relative">
@@ -32,29 +34,33 @@ interface SubmitButtonProps {
 </button>
 
 <script>
-  const button = document.getElementById('submit-button');
+  const button = document.getElementById("submit-button");
 
   async function handleSubmit() {
-    const input = document.getElementById('long-url') as HTMLInputElement;
-    const buttonText = document.getElementById('button-text') as HTMLParagraphElement;
-    const loadingSpinner = document.getElementById('loading-spinner') as HTMLDivElement;
+    const input = document.getElementById("long-url") as HTMLInputElement;
+    const buttonText = document.getElementById(
+      "button-text",
+    ) as HTMLParagraphElement;
+    const loadingSpinner = document.getElementById(
+      "loading-spinner",
+    ) as HTMLDivElement;
 
     if (input && buttonText && loadingSpinner) {
       const url = input.value;
 
       if (!url) {
-        alert('Please enter a URL');
+        alert("Please enter a URL");
         return;
       }
 
-      buttonText.style.opacity = '0';
-      loadingSpinner.style.opacity = '1';
+      buttonText.style.opacity = "0";
+      loadingSpinner.style.opacity = "1";
 
       try {
-        const response = await fetch('/api/shorten', {
-          method: 'POST',
+        const response = await fetch("/api/shorten", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ url }),
         });
@@ -62,14 +68,14 @@ interface SubmitButtonProps {
         const result = await response.json();
         alert(`Shortened URL key: ${result.key}`);
       } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to shorten the URL');
+        console.error("Error:", error);
+        alert("Failed to shorten the URL");
       } finally {
-        buttonText.style.opacity = '1';
-        loadingSpinner.style.opacity = '0';
+        buttonText.style.opacity = "1";
+        loadingSpinner.style.opacity = "0";
       }
     }
   }
 
-  button?.addEventListener('click', handleSubmit);
+  button?.addEventListener("click", handleSubmit);
 </script>
