@@ -12,7 +12,7 @@ import { getLocale } from "@/utils/get-locale"
 const locale = getLocale();
 ---
 
-<div class="flex items-center justify-center gap-3">
+<div class="flex items-center justify-center gap-x-6 select-none">
   <Image
     src={icon}
     height={100}
@@ -20,17 +20,17 @@ const locale = getLocale();
     alt="JFA Icon"
     id="themeIcon"
   />
-  <h1 class="text-geist font-bold">{localizedPageTitle[locale]}</h1>
+  <h1 class="text-geist font-bold text-3xl">{localizedPageTitle[locale]}</h1>
 </div>
 
 <script>
-  const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)")
+  const deviceDarkTheme = window.matchMedia("(prefers-color-scheme: dark)")
   const iconElement = document.getElementById('themeIcon') as HTMLImageElement
 
   const setTheme = (isDark: boolean) => {
     document.cookie = `theme=${isDark ? 'dark' : 'light'}; path=/`
     iconElement.src = isDark ? '/favicon/favicon.white.webp' : '/favicon/favicon.black.webp'
   }
-  setTheme(darkThemeMq.matches)
-  darkThemeMq.addEventListener('change', e => setTheme(e.matches))
+  setTheme(deviceDarkTheme.matches)
+  deviceDarkTheme.addEventListener('change', e => setTheme(e.matches))
 </script>

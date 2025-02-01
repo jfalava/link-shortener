@@ -8,6 +8,8 @@ export const locale: Locale = {
   es: "Spanish",
 };
 
+export type RequiredLocales = Record<keyof Locale, string>;
+
 const DEFAULT_LOCALE = "es";
 
 export const getLocale = (): keyof Locale => {
