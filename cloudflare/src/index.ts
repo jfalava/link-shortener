@@ -4,58 +4,98 @@ const generateRandomString = (): string => {
 	for (let i = 0; i < 6; i++) {
 		result += chars.charAt(Math.floor(Math.random() * chars.length));
 	}
-	// Format the string with a hyphen after every 3 characters
 	return `${result.slice(0, 3)}-${result.slice(3)}`;
 };
 
+const isAllowedOrigin = (origin: string | null): boolean => {
+  if (!origin) return false;
+  return origin.endsWith('.jfa.ovh') || origin === 'https://jfa.ovh';
+};
+
+const getCorsHeaders = (request: Request): HeadersInit => {
+  const origin = request.headers.get('Origin');
+  if (!isAllowedOrigin(origin)) {
+    return {
+      'Access-Control-Allow-Origin': '',
+      'Access-Control-Allow-Methods': '',
+      'Access-Control-Allow-Headers': ''
+    };
+  }
+
+  return {
+    'Access-Control-Allow-Origin': origin || '',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  };
+};
+
 export default {
-	async fetch(request: Request, env: { MY_KV_NAMESPACE: KVNamespace }): Promise<Response> {
-		try {
-			// Handle POST request
-			if (request.method === 'POST') {
-				const body: { url?: string } = await request.json();
+async fetch(request: Request, env: { "link-shortener-kv": KVNamespace }): Promise<Response> {
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        headers: getCorsHeaders(request),
+      });
+    }
 
-				// Validate the URL
-				if (!body.url || !/^https?:\/\/.+/.test(body.url)) {
-					return new Response('Valid URL is required', { status: 400 });
-				}
+    try {
+          if (request.method === 'POST') {
+            const body: { url?: string } = await request.json();
 
-				// Generate a random 6-character string with hyphen formatting
-				const key = generateRandomString();
+            if (!body.url || !/^https?:\/\/.+/.test(body.url)) {
+              return new Response('Valid URL is required', {
+                status: 400,
+                headers: getCorsHeaders(request)
+              });
+            }
 
-				// Store the URL in KV with the generated key
-				await env.MY_KV_NAMESPACE.put(key, body.url);
+            const key = generateRandomString();
+            await env["link-shortener-kv"].put(key, body.url);
 
-				// Return the formatted key as the response
-				return new Response(JSON.stringify({ key }), {
-					headers: { 'Content-Type': 'application/json' },
-				});
-			}
+            return new Response(JSON.stringify({ key }), {
+              headers: {
+                'Content-Type': 'application/json',
+                ...getCorsHeaders(request)
+              },
+            });
+          }
 
-			// Handle GET request
-			if (request.method === 'GET') {
-				const url = new URL(request.url);
-				const key = url.searchParams.get('key');
+          if (request.method === 'GET') {
+            const url = new URL(request.url);
+            const key = url.searchParams.get('key');
 
-				if (!key) {
-					return new Response('Key is required', { status: 400 });
-				}
+            if (!key) {
+              return new Response('Key is required', {
+                status: 400,
+                headers: getCorsHeaders(request)
+              });
+            }
 
-				const storedUrl = await env.MY_KV_NAMESPACE.get(key);
-				if (!storedUrl) {
-					return new Response('Key not found', { status: 404 });
-				}
+            const storedUrl = await env["link-shortener-kv"].get(key);
+            if (!storedUrl) {
+              return new Response('Key not found', {
+                status: 404,
+                headers: getCorsHeaders(request)
+              });
+            }
 
-				return new Response(JSON.stringify({ url: storedUrl }), {
-					headers: { 'Content-Type': 'application/json' },
-				});
-			}
+        return new Response(JSON.stringify({ url: storedUrl }), {
+          headers: {
+            'Content-Type': 'application/json',
+            ...getCorsHeaders(request)
+          },
+        });
+      }
 
-			// Handle other HTTP methods
-			return new Response('Method Not Allowed', { status: 405 });
-		} catch (error) {
-			console.error('Error processing request:', error);
-			return new Response('Internal Server Error', { status: 500 });
-		}
-	},
+      return new Response('Method Not Allowed', {
+        status: 405,
+        headers: getCorsHeaders(request)
+      });
+    } catch (error) {
+      console.error('Error processing request:', error);
+      return new Response('Internal Server Error', {
+        status: 500,
+        headers: getCorsHeaders(request)
+      });
+    }
+  },
 };
