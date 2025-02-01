@@ -35,3 +35,15 @@
   font-weight: light;
   font-style: normal;
 }
+
+@layer utilities {
+  .submit-button-effect {
+    box-shadow: inset -3px -3px 6px 0 #e0e0e0;
+  }
+  .submit-button-effect:hover {
+    box-shadow: none;
+  }
+  .submit-button-effect:active {
+    box-shadow: inset 3px 3px 6px 0 #e0e0e0;
+  }
+}

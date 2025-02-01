@@ -1,0 +1,73 @@
+---
+import { localizedShortenLinkButton } from "@/i18n/components/TextInput.i18n";
+import { getLocale } from "@/utils/get-locale";
+import LoadingSpinner from "@/assets/LoadingSpinner.astro";
+const locale = getLocale();
+
+interface SubmitButtonProps {
+  inputId: string;
+}
+
+const handleSubmit = async (inputId: string) => {
+  const input = document.getElementById(inputId) as HTMLInputElement;
+  const buttonText = document.getElementById(
+    "button-text",
+  ) as HTMLParagraphElement;
+  const loadingSpinner = document.getElementById(
+    "loading-spinner",
+  ) as HTMLDivElement;
+
+  if (input && buttonText && loadingSpinner) {
+    const url = input.value;
+
+    if (!url) {
+      alert("Please enter a URL");
+      return;
+    }
+
+    buttonText.style.opacity = "0";
+    loadingSpinner.style.opacity = "1";
+
+    try {
+      const response = await fetch("/api/shorten", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      const result = await response.json();
+      alert(`Shortened URL key: ${result.key}`);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to shorten the URL");
+    } finally {
+      buttonText.style.opacity = "1";
+      loadingSpinner.style.opacity = "0";
+    }
+  }
+};
+---
+
+<button
+  class="cursor-pointer
+  text-geist
+  p-3 border border-solid border-transparent
+  bg-black text-white hover:bg-bblack
+  transition-colors duration-100 ease-in-out
+  rounded-3xl"
+  onclick={() => handleSubmit("long-url")}
+>
+  <div class="relative">
+    <p id="button-text" class="relative">
+      {localizedShortenLinkButton[locale]}
+    </p>
+    <div
+      id="loading-spinner"
+      class="absolute opacity-0 inset-0 flex items-center justify-center"
+    >
+      <LoadingSpinner />
+    </div>
+  </div>
+</button>

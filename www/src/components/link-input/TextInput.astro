@@ -1,0 +1,15 @@
+---
+import { localizedTextInputPlaceholder } from "@/i18n/components/TextInput.i18n";
+import { getLocale } from "@/utils/get-locale";
+const locale = getLocale();
+---
+
+<input
+  id="long-url"
+  type="text"
+  placeholder={localizedTextInputPlaceholder[locale]}
+  class="text-geist-mono font-light
+p-3
+border border-solid border-bwhite dark:border-bblack
+rounded-xl"
+/>
