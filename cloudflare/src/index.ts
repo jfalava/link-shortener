@@ -180,6 +180,11 @@ export default {
 			}
 		}
 
+		// Redirect to https://link-shortener.jfa.dev/ if base domain is called without a key
+		if (url.hostname === 'jfa.ovh' && !key) {
+			return Response.redirect('https://link-shortener.jfa.dev/', 302);
+		}
+
 		return new Response('Not Found', { status: 404 });
 	},
 };
