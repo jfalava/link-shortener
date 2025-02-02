@@ -37,7 +37,7 @@ export default defineConfig({
         },
       ],
     }),
-    sitemap(),
+    sitemap({ customPages: ["https://link-shortener.jfa.dev/tos"] }),
     mdx(),
   ],
 });
