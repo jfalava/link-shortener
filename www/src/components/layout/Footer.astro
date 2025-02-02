@@ -1,0 +1,22 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import Master from "@/layouts/Master.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<Master locale={locale}>
+  <div>
+    <div class="flex justify-center items-center">
+      <p class="text-geist">Jorge Fernando Álava &copy;&nbsp;</p>
+      <p>{currentYear}</p>
+    </div>
+    <a href="/tos"><p class="text-geist">ToS</p></a>
+  </div>
+</Master>

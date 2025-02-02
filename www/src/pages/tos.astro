@@ -1,0 +1,36 @@
+---
+import Master from "@/layouts/Master.astro";
+import { getLocale } from "@/utils/get-locale";
+
+const locale = getLocale();
+const { default: ToS } = await import(`../components/tos/ToS.${locale}.mdx`);
+---
+
+<style is:global>
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  ol {
+    padding-left: 1rem;
+    list-style-type: decimal;
+    margin-left: 1rem;
+  }
+
+  ol li {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
+  }
+</style>
+<Master locale={locale}>
+  <main class="grid place-items-center h-screen">
+    <div
+      class="max-w-[90%] ml-[5%] text-geist text-balance hyphens-auto gap-x-3"
+    >
+      <ToS />
+    </div>
+  </main>
+</Master>

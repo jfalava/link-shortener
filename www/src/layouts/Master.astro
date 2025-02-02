@@ -2,6 +2,7 @@
 import type { Locale } from "@/utils/get-locale";
 import "@/styles/global.css";
 import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
+import Footer from "@/components/layout/Footer.astro";
 
 interface Props {
   locale: keyof Locale;
@@ -32,8 +33,8 @@ const { locale } = Astro.props;
       crossorigin="anonymous"
     />
     <link
-      rel="https://static.jfa.dev/fonts/geist/geist-mono-variable.ttf"
-      type="font/ttf"
+      rel="https://static.jfa.dev/fonts/geist/geist-mono-variable.woff2"
+      type="font/woff2"
       crossorigin="anonymous"
     />
     <title>{localizedPageTitle[locale]} - JFA</title>
@@ -41,4 +42,5 @@ const { locale } = Astro.props;
   <body class="text-black bg-white dark:text-white dark:bg-black">
     <slot />
   </body>
+  <Footer locale={locale} />
 </html>

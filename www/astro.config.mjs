@@ -13,7 +13,7 @@ import mdx from "@astrojs/mdx";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  site: "https://shortener.jfa.ovh",
+  site: "https://link-shortener.jfa.dev/",
   adapter: cloudflare({
     imageService: "passthrough",
   }),
@@ -25,15 +25,19 @@ export default defineConfig({
     },
   },
 
-  integrations: [robotsTxt({
-    host: "shortener.jfa.ovh",
-    sitemap: ["https://shortener.jfa.ovh/sitemap-index.xml"],
-    policy: [
-      {
-        userAgent: "*",
-        allow: "/",
-        crawlDelay: 10,
-      },
-    ],
-  }), sitemap(), mdx()],
+  integrations: [
+    robotsTxt({
+      host: "link-shortener.jfa.dev",
+      sitemap: ["https://link-shortener.jfa.dev/sitemap-index.xml"],
+      policy: [
+        {
+          userAgent: "*",
+          allow: "/",
+          crawlDelay: 10,
+        },
+      ],
+    }),
+    sitemap(),
+    mdx(),
+  ],
 });
