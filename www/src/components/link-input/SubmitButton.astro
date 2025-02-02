@@ -38,18 +38,19 @@ const { locale } = Astro.props;
     const isVisible = toastStates.get(toastElement);
     const existingTimeout = toastTimeouts.get(toastElement);
 
-    // Clear existing timeout if toast is visible
     if (isVisible && existingTimeout) {
       clearTimeout(existingTimeout);
     }
 
-    // Show toast and update state
+    // Replace invisible class with slide-in-out animation
     toastElement.classList.remove("invisible");
+    toastElement.classList.add("slide-in-out");
     toastStates.set(toastElement, true);
 
-    // Set new timeout
     const newTimeout = setTimeout(() => {
+      // When animation ends, add invisible class and remove animation class
       toastElement.classList.add("invisible");
+      toastElement.classList.remove("slide-in-out");
       toastStates.set(toastElement, false);
     }, duration);
 
