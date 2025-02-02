@@ -20,7 +20,9 @@ const currentYear = new Date().getFullYear();
 ---
 
 <Master locale={locale}>
-  <div class="flex justify-center border-t border-solid border-bblack py-6">
+  <div
+    class="flex justify-center border-t border-solid border-bwhite dark:border-bblack py-6"
+  >
     <div
       class="grid xl:grid-cols-2 place-items-center pb-6 select-none max-xl:gap-y-3"
     >
@@ -28,7 +30,7 @@ const currentYear = new Date().getFullYear();
         Jorge Fernando Álava&nbsp&copy;&nbsp{currentYear}
       </p>
       <div
-        class="grid gap-y-3 pl-3 border-l border-solid border-bblack place-items-start"
+        class="grid gap-y-3 pl-3 py-3 border-l border-solid border-bwhite dark:border-bblack place-items-start"
       >
         <a href="/tos" class="hover:underline flex justify-center items-center">
           <ToSIcon />
