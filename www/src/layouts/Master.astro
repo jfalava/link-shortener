@@ -1,11 +1,16 @@
 ---
 import type { Locale } from "@/utils/get-locale";
 import "@/styles/global.css";
+
 import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
+
+import MetaTags from "@/components/meta/MetaTags.astro";
 
 interface Props {
   locale: keyof Locale;
 }
+
+const currentUrl = Astro.url.toString();
 
 const { locale } = Astro.props;
 ---
@@ -14,6 +19,7 @@ const { locale } = Astro.props;
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
+
     <link
       rel="icon"
       type="image/webp"
@@ -35,6 +41,11 @@ const { locale } = Astro.props;
       rel="https://static.jfa.dev/fonts/geist/geist-mono-variable.woff2"
       type="font/woff2"
       crossorigin="anonymous"
+    />
+    <MetaTags
+      locale={locale}
+      currentURL={currentUrl}
+      headerContent={localizedPageTitle[locale]}
     />
     <title>{localizedPageTitle[locale]}</title>
   </head>
