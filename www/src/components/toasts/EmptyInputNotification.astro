@@ -4,7 +4,7 @@ import Toast from "../elements/Toast.astro";
 
 import Empty from "@/assets/Empty.astro";
 
-import { localizedBadInput } from "@/i18n/components/toasts/BadInput.i18n";
+import { localizedEmptyInput } from "@/i18n/components/toasts/Empty.i18n";
 
 interface Props {
   locale: keyof Locale;
@@ -13,6 +13,9 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<Toast toastContainerID="empty-input" toastMessage={localizedBadInput[locale]}>
+<Toast
+  toastContainerID="empty-input"
+  toastMessage={localizedEmptyInput[locale]}
+>
   <Empty />
 </Toast>

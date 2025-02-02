@@ -3,6 +3,8 @@ import type { Locale } from "@/utils/get-locale";
 import "@/styles/global.css";
 import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
 
+import Footer from "@/components/layout/Footer.astro";
+
 interface Props {
   locale: keyof Locale;
 }
@@ -41,4 +43,5 @@ const { locale } = Astro.props;
   <body class="text-black bg-white dark:text-white dark:bg-black">
     <slot />
   </body>
+  <Footer locale={locale} />
 </html>
