@@ -3,8 +3,13 @@ import type { Locale } from "@/utils/get-locale";
 
 import Master from "@/layouts/Master.astro";
 
-import { localizedToS } from "@/i18n/layouts/FooterContent.i18n";
+import {
+  localizedToS,
+  localizedSourceCode,
+} from "@/i18n/layouts/FooterContent.i18n";
+
 import ToSIcon from "@/assets/ToSIcon.astro";
+import GitHubIcon from "@/assets/GitHubIcon.astro";
 
 interface Props {
   locale: keyof Locale;
@@ -15,13 +20,32 @@ const currentYear = new Date().getFullYear();
 ---
 
 <Master locale={locale}>
-  <div class="grid xl:grid-cols-2 place-items-center pb-6 select-none">
-    <p class="text-geist max-lg:text-sm font-semibold">
-      Jorge Fernando Álava&nbsp&copy;&nbsp{currentYear}
-    </p>
-    <a href="/tos" class="hover:underline flex justify-center items-center">
-      <ToSIcon />
-      <p class="text-geist pl-1 max-lg:text-sm">{localizedToS[locale]}</p>
-    </a>
+  <div class="flex justify-center border-t border-solid border-bblack py-6">
+    <div
+      class="grid xl:grid-cols-2 place-items-center pb-6 select-none max-xl:gap-y-3"
+    >
+      <p class="text-geist max-lg:text-sm font-semibold">
+        Jorge Fernando Álava&nbsp&copy;&nbsp{currentYear}
+      </p>
+      <div
+        class="grid gap-y-3 pl-3 border-l border-solid border-bblack place-items-start"
+      >
+        <a href="/tos" class="hover:underline flex justify-center items-center">
+          <ToSIcon />
+          <p class="text-geist pl-2 max-lg:text-sm">{localizedToS[locale]}</p>
+        </a>
+        <a
+          href="https://github.com/jfalava/link-shortener?tab=readme-ov-file"
+          class="hover:underline flex justify-center items-center"
+          target="_self"
+          rel="noopener noreferer"
+        >
+          <GitHubIcon />
+          <p class="text-geist pl-2 max-lg:text-sm">
+            {localizedSourceCode[locale]}
+          </p>
+        </a>
+      </div>
+    </div>
   </div>
 </Master>
