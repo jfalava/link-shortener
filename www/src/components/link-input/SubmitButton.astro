@@ -31,6 +31,30 @@ const { locale } = Astro.props;
 
 <script>
   const button = document.getElementById("submit-button");
+  const toastTimeouts = new Map();
+  const toastStates = new Map();
+
+  function showToastWithTimeout(toastElement: HTMLElement, duration: number) {
+    const isVisible = toastStates.get(toastElement);
+    const existingTimeout = toastTimeouts.get(toastElement);
+
+    // Clear existing timeout if toast is visible
+    if (isVisible && existingTimeout) {
+      clearTimeout(existingTimeout);
+    }
+
+    // Show toast and update state
+    toastElement.classList.remove("invisible");
+    toastStates.set(toastElement, true);
+
+    // Set new timeout
+    const newTimeout = setTimeout(() => {
+      toastElement.classList.add("invisible");
+      toastStates.set(toastElement, false);
+    }, duration);
+
+    toastTimeouts.set(toastElement, newTimeout);
+  }
 
   async function handleSubmit() {
     const input = document.getElementById("long-url") as HTMLInputElement;
@@ -66,13 +90,7 @@ const { locale } = Astro.props;
     const url = input.value;
 
     if (!url) {
-      const emptyInputToast = document.getElementById("empty-input");
-      if (emptyInputToast) {
-        emptyInputToast.classList.remove("invisible");
-        setTimeout(() => {
-          emptyInputToast.classList.add("invisible");
-        }, 3000);
-      }
+      showToastWithTimeout(emptyInputToast, 3000);
       return;
     }
 
@@ -98,18 +116,10 @@ const { locale } = Astro.props;
       shortenedLinkSection.classList.add("visible");
       shortenedLink.textContent = shortenedUrl;
 
-      // Show KV latency toast
-      kvLatencyToast.classList.remove("invisible");
-      setTimeout(() => {
-        kvLatencyToast.classList.add("invisible");
-      }, 3000);
+      showToastWithTimeout(kvLatencyToast, 3000);
     } catch (error) {
       console.error("Error:", error);
-      // Show bad input toast
-      badInputToast.classList.remove("invisible");
-      setTimeout(() => {
-        badInputToast.classList.add("invisible");
-      }, 3000);
+      showToastWithTimeout(badInputToast, 3000);
     } finally {
       buttonText.style.opacity = "1";
       loadingSpinner.style.opacity = "0";
