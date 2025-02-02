@@ -1,0 +1,19 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import BadInputNotification from "@/components/toasts/BadInputNotification.astro";
+import EmptyInputNotification from "@/components/toasts/EmptyInputNotification.astro";
+import KVLatencyNotification from "@/components/toasts/KVLatencyNotification.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="relative">
+  <BadInputNotification locale={locale} />
+  <EmptyInputNotification locale={locale} />
+  <KVLatencyNotification locale={locale} />
+</div>

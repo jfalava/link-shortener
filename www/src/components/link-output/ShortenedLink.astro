@@ -1,0 +1,104 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import {
+  localizedCopyButton,
+  localizedShortenMore,
+} from "@/i18n/components/ShortenedLink.i18n";
+
+import CopyIcon from "@/assets/CopyIcon.astro";
+import OKIcon from "@/assets/OKIcon.astro";
+import Button from "@/components/elements/Button.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div
+  class="grid gap-y-3 invisible [grid-area:shared]"
+  id="shortened-link-section"
+>
+  <div class="flex justify-center items-center gap-x-3">
+    <div
+      class="flex-1 p-3 border border-solid border-bwhite dark:border-bblack rounded-xl overflow-x-scroll"
+    >
+      <p id="shortened-link" class="text-mono font-light"></p>
+    </div>
+    <button
+      id="copy-button-element"
+      class="cursor-pointer"
+      aria-label={localizedCopyButton[locale]}
+      title={localizedCopyButton[locale]}
+    >
+      <div class="relative">
+        <div class="relative" id="copy-button">
+          <CopyIcon />
+        </div>
+        <div class="absolute opacity-0 inset-0" id="ok-button">
+          <OKIcon />
+        </div>
+      </div>
+    </button>
+  </div>
+  <Button
+    id="shorten-more-links"
+    ariaBusy={false}
+    ariaLabel={localizedShortenMore[locale]}
+  >
+    <p class="">{localizedShortenMore[locale]}</p>
+  </Button>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const copyButton = document.querySelector("#copy-button");
+    const okButton = document.querySelector("#ok-button");
+    const shortenedLink = document.querySelector("#shortened-link");
+    const copyButtonElement = document.querySelector("#copy-button-element");
+    const shortenMoreLinksButton = document.querySelector<HTMLElement>(
+      "#shorten-more-links",
+    );
+    const shortenedLinkSection = document.querySelector(
+      "#shortened-link-section",
+    );
+    const submitLinkSection = document.querySelector("#submit-link-section");
+    const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
+
+    if (copyButtonElement) {
+      copyButtonElement.addEventListener("click", async () => {
+        const textToCopy = shortenedLink?.textContent;
+        if (!textToCopy) return;
+
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+
+          if (copyButton && okButton) {
+            copyButton.classList.add("opacity-0", "inset-0");
+            okButton.classList.remove("opacity-0");
+
+            setTimeout(() => {
+              copyButton.classList.remove("opacity-0", "inset-0");
+              okButton.classList.add("opacity-0");
+            }, 2000);
+          }
+        } catch (err) {
+          console.error("Failed to copy text: ", err);
+        }
+      });
+    }
+
+    if (shortenMoreLinksButton) {
+      shortenMoreLinksButton.addEventListener("click", () => {
+        if (submitLinkSection && shortenedLinkSection && longUrlInput) {
+          submitLinkSection.classList.remove("invisible");
+          submitLinkSection.classList.add("visible");
+          shortenedLinkSection.classList.remove("visible");
+          shortenedLinkSection.classList.add("invisible");
+          longUrlInput.value = ""; // clear the input field
+        }
+      });
+    }
+  });
+</script>

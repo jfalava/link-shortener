@@ -1,0 +1,32 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import Master from "@/layouts/Master.astro";
+import Main from "@/components/layout/Main.astro";
+
+import ToastContainer from "@/components/ToastContainer.astro";
+
+import PageTitle from "@/components/PageTitle.astro";
+import SubmitLink from "@/components/SubmitLink.astro";
+
+import ShortenedLink from "@/components/link-output/ShortenedLink.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Master locale={locale}>
+  <ToastContainer locale={locale} />
+  <Main locale={locale}>
+    <div class="grid gap-y-6">
+      <PageTitle locale={locale} />
+      <div class="[grid-template-areas:'shared'] grid">
+        <SubmitLink locale={locale} />
+        <ShortenedLink locale={locale} />
+      </div>
+    </div>
+  </Main>
+</Master>

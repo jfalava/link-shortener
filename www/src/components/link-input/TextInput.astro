@@ -1,0 +1,19 @@
+---
+import { localizedTextInputPlaceholder } from "@/i18n/components/TextInput.i18n";
+import type { Locale } from "@/utils/get-locale";
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<input
+  id="long-url"
+  type="url"
+  name="url"
+  aria-label={localizedTextInputPlaceholder[locale]}
+  required
+  placeholder={localizedTextInputPlaceholder[locale]}
+  class="text-mono font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-xl select-none"
+/>

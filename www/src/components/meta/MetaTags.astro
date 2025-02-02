@@ -1,0 +1,10 @@
+---
+import type { Locale } from "@/utils/get-locale";
+import "@/styles/global.css";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---

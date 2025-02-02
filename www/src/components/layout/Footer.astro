@@ -1,0 +1,27 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import Master from "@/layouts/Master.astro";
+
+import { localizedToS } from "@/i18n/layouts/FooterContent.i18n";
+import ToSIcon from "@/assets/ToSIcon.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<Master locale={locale}>
+  <div class="grid xl:grid-cols-2 place-items-center pb-6 select-none">
+    <p class="text-geist max-lg:text-sm font-semibold">
+      Jorge Fernando Álava&nbsp&copy;&nbsp{currentYear}
+    </p>
+    <a href="/tos" class="hover:underline flex justify-center items-center">
+      <ToSIcon />
+      <p class="text-geist pl-1 max-lg:text-sm">{localizedToS[locale]}</p>
+    </a>
+  </div>
+</Master>
