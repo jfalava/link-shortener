@@ -1,0 +1,17 @@
+---
+import type { Locale } from "@/utils/get-locale";
+import Toast from "../elements/Toast.astro";
+import TimeOut from "@/assets/TimeOut.astro";
+
+import { localizedKVLatency } from "@/i18n/components/toasts/KVLatency.i18n";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Toast toastContainerID="kv-latency" toastMessage={localizedKVLatency[locale]}>
+  <TimeOut />
+</Toast>

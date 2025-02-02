@@ -1,8 +1,13 @@
 ---
+import type { Locale } from "@/utils/get-locale";
+
 import { Image } from "astro:assets";
 import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
-import { getLocale } from "@/utils/get-locale";
-const locale = getLocale();
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
 ---
 
 <div

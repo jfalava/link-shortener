@@ -3,6 +3,11 @@ import type { Locale } from "@/utils/get-locale";
 
 import Master from "@/layouts/Master.astro";
 import Main from "@/components/layout/Main.astro";
+
+import BadInputNotification from "@/components/toasts/BadInputNotification.astro";
+import EmptyInputNotification from "@/components/toasts/EmptyInputNotification.astro";
+import KVLatencyNotification from "@/components/toasts/KVLatencyNotification.astro";
+
 import PageTitle from "@/components/PageTitle.astro";
 import SubmitLink from "@/components/SubmitLink.astro";
 import ShortenedLink from "@/components/link-output/ShortenedLink.astro";
@@ -15,9 +20,12 @@ const { locale } = Astro.props;
 ---
 
 <Master locale={locale}>
+  <BadInputNotification locale={locale} />
+  <EmptyInputNotification locale={locale} />
+  <KVLatencyNotification locale={locale} />
   <Main locale={locale}>
     <div class="grid gap-y-6">
-      <PageTitle />
+      <PageTitle locale={locale} />
       <div class="[grid-template-areas:'shared'] grid">
         <SubmitLink locale={locale} />
         <ShortenedLink locale={locale} />
