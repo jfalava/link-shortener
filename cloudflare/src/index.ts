@@ -6,18 +6,15 @@ const RATE_LIMIT = {
 const generateRandomString = (): string => {
 	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	let result = '';
-	for (let i = 0; i < 9; i++) {
+	for (let i = 0; i < 6; i++) {
 		result += chars.charAt(Math.floor(Math.random() * chars.length));
-		if ((i + 1) % 3 === 0 && i !== 8) {
-			result += '-';
-		}
 	}
 	return result;
 };
 
 const isAllowedOrigin = (origin: string | null): boolean => {
 	if (!origin) return false;
-	return origin.endsWith('.jfa.ovh') || origin.endsWith('.jfa.dev') || origin === 'http://localhost:4321';
+	return origin.endsWith('.jfa.ovh') || origin.endsWith('.jfa.dev');
 };
 
 const getCorsHeaders = (request: Request): HeadersInit => {
