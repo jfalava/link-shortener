@@ -7,9 +7,12 @@ interface Props {
 const { toastContainerID, toastMessage } = Astro.props;
 ---
 
-<div id={toastContainerID} class="flex absolute justify-center invisible">
+<div
+  id={toastContainerID}
+  class="flex justify-center absolute invisible top-4 left-0 right-0"
+>
   <div
-    class="font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-xl flex justify-evenly items-center mt-3"
+    class="font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-xl flex justify-evenly items-center"
   >
     <div class="dark:invert pr-3">
       <slot />

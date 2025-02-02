@@ -4,12 +4,11 @@ import type { Locale } from "@/utils/get-locale";
 import Master from "@/layouts/Master.astro";
 import Main from "@/components/layout/Main.astro";
 
-import BadInputNotification from "@/components/toasts/BadInputNotification.astro";
-import EmptyInputNotification from "@/components/toasts/EmptyInputNotification.astro";
-import KVLatencyNotification from "@/components/toasts/KVLatencyNotification.astro";
+import ToastContainer from "@/components/ToastContainer.astro";
 
 import PageTitle from "@/components/PageTitle.astro";
 import SubmitLink from "@/components/SubmitLink.astro";
+
 import ShortenedLink from "@/components/link-output/ShortenedLink.astro";
 
 interface Props {
@@ -20,9 +19,7 @@ const { locale } = Astro.props;
 ---
 
 <Master locale={locale}>
-  <BadInputNotification locale={locale} />
-  <EmptyInputNotification locale={locale} />
-  <KVLatencyNotification locale={locale} />
+  <ToastContainer locale={locale} />
   <Main locale={locale}>
     <div class="grid gap-y-6">
       <PageTitle locale={locale} />
