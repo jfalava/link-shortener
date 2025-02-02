@@ -1,9 +1,17 @@
 ---
-import Master from "@/layouts/Master.astro"
+import type { Locale } from "@/utils/get-locale";
+
+import Master from "@/layouts/Master.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
 ---
 
-<Master>
+<Master locale={locale}>
   <main class="grid place-content-center h-screen">
-    <slot/>
+    <slot />
   </main>
 </Master>

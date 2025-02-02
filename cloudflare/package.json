@@ -1,5 +1,5 @@
 {
-	"name": "link-shortened-cloudflare",
+	"name": "link-shortener-cloudflare",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {

@@ -1,5 +1,8 @@
 ---
-import IndexLayout from "@/layouts/Index.astro"
+import IndexLayout from "@/layouts/Index.astro";
+
+import { getLocale } from "@/utils/get-locale";
+const locale = getLocale();
 ---
 
-<IndexLayout/>
+<IndexLayout locale={locale} />

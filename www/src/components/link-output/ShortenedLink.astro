@@ -1,4 +1,6 @@
 ---
+import type { Locale } from "@/utils/get-locale";
+
 import {
   localizedCopyButton,
   localizedShortenMore,
@@ -8,8 +10,11 @@ import CopyIcon from "@/assets/CopyIcon.astro";
 import OKIcon from "@/assets/OKIcon.astro";
 import Button from "@/components/elements/Button.astro";
 
-import { getLocale } from "@/utils/get-locale";
-const locale = getLocale();
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
 ---
 
 <div

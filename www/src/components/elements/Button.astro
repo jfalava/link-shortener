@@ -21,7 +21,6 @@ const { id, ariaLabel, ariaBusy = false } = Astro.props;
   aria-busy={ariaBusy}
   tabindex="0"
   role="button"
-  onkeydown="(e) => e.key === 'Enter' && this.click()"
 >
   <slot />
 </button>

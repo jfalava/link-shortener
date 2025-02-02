@@ -1,5 +1,5 @@
 {
-  "name": "link-shortened-www",
+  "name": "link-shortener-www",
   "type": "module",
   "version": "0.1",
   "engines": {

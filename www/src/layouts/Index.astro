@@ -1,18 +1,26 @@
 ---
+import type { Locale } from "@/utils/get-locale";
+
 import Master from "@/layouts/Master.astro";
 import Main from "@/components/layout/Main.astro";
 import PageTitle from "@/components/PageTitle.astro";
 import SubmitLink from "@/components/SubmitLink.astro";
 import ShortenedLink from "@/components/link-output/ShortenedLink.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
 ---
 
-<Master>
-  <Main>
-    <div class="grid justify-center gap-y-6">
+<Master locale={locale}>
+  <Main locale={locale}>
+    <div class="grid gap-y-6">
       <PageTitle />
       <div class="[grid-template-areas:'shared'] grid">
-        <SubmitLink />
-        <ShortenedLink />
+        <SubmitLink locale={locale} />
+        <ShortenedLink locale={locale} />
       </div>
     </div>
   </Main>

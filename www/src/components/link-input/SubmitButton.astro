@@ -1,11 +1,14 @@
 ---
+import type { Locale } from "@/utils/get-locale";
 import { localizedShortenLinkButton } from "@/i18n/components/TextInput.i18n";
 
 import LoadingSpinner from "@/assets/LoadingSpinner.astro";
 import Button from "@/components/elements/Button.astro";
+interface Props {
+  locale: keyof Locale;
+}
 
-import { getLocale } from "@/utils/get-locale";
-const locale = getLocale();
+const { locale } = Astro.props;
 ---
 
 <Button
@@ -88,6 +91,12 @@ const locale = getLocale();
       }
     }
   }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  });
 
   button?.addEventListener("click", handleSubmit);
 </script>

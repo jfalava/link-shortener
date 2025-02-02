@@ -1,19 +1,50 @@
 ---
 import { Image } from "astro:assets";
-
 import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
-
 import { getLocale } from "@/utils/get-locale";
 const locale = getLocale();
 ---
 
-<div class="flex items-center justify-center gap-x-6 select-none">
-  <Image
-    src="/favicon/favicon.white.webp"
-    height={100}
-    width={100}
-    alt="JFA Icon"
-    id="themeIcon"
-  />
-  <h1 class="text-geist font-bold text-3xl">{localizedPageTitle[locale]}</h1>
+<div
+  class="xl:flex items-center max-xl:grid xl:gap-x-6 max-xl:gap-y-6 select-none"
+>
+  <div
+    class="relative w-[100px] h-[100px] flex justify-center items-center mx-auto"
+  >
+    <Image
+      src="/favicon/favicon.white.webp"
+      height={100}
+      width={100}
+      alt="JFA Icon Dark Theme"
+      class="absolute dark:block hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      id="darkThemeIcon"
+      loading="eager"
+    />
+    <Image
+      src="/favicon/favicon.black.webp"
+      height={100}
+      width={100}
+      alt="JFA Icon Light Theme"
+      class="absolute dark:hidden block left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      id="lightThemeIcon"
+      loading="eager"
+    />
+  </div>
+  <div class="flex justify-center">
+    <h1 class="text-geist xl:font-bold text-3xl">
+      {localizedPageTitle[locale]}
+    </h1>
+  </div>
 </div>
+
+<script>
+  const darkThemeIcon = document.getElementById("darkThemeIcon");
+  const lightThemeIcon = document.getElementById("lightThemeIcon");
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      darkThemeIcon?.classList.toggle("hidden", !e.matches);
+      lightThemeIcon?.classList.toggle("hidden", e.matches);
+    });
+</script>

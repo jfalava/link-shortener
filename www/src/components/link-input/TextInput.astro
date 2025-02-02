@@ -1,7 +1,11 @@
 ---
 import { localizedTextInputPlaceholder } from "@/i18n/components/TextInput.i18n";
-import { getLocale } from "@/utils/get-locale";
-const locale = getLocale();
+import type { Locale } from "@/utils/get-locale";
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
 ---
 
 <input
