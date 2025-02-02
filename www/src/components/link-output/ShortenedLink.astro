@@ -64,7 +64,7 @@ const { locale } = Astro.props;
       "#shortened-link-section",
     );
     const submitLinkSection = document.querySelector("#submit-link-section");
-    const longUrlInput = document.querySelector<HTMLInputElement>("#long-url"); // Add this line
+    const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
 
     if (copyButtonElement) {
       copyButtonElement.addEventListener("click", async () => {
@@ -96,7 +96,7 @@ const { locale } = Astro.props;
           submitLinkSection.classList.add("visible");
           shortenedLinkSection.classList.remove("visible");
           shortenedLinkSection.classList.add("invisible");
-          longUrlInput.value = ""; // Clear the input field
+          longUrlInput.value = ""; // clear the input field
         }
       });
     }

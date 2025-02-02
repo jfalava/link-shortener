@@ -1,6 +1,6 @@
 const RATE_LIMIT = {
-	MAX_REQUESTS: 100, // Maximum requests allowed
-	WINDOW_SECONDS: 600, // Time window in seconds (10 minutes)
+	MAX_REQUESTS: 100,
+	WINDOW_SECONDS: 600,
 };
 
 const generateRandomString = (): string => {
@@ -38,7 +38,6 @@ const getCorsHeaders = (request: Request): HeadersInit => {
 };
 
 const getClientIdentifier = (request: Request): string => {
-	// Use the client's IP address as the identifier
 	return request.headers.get('CF-Connecting-IP') || 'unknown';
 };
 
@@ -47,24 +46,20 @@ const checkRateLimit = async (
 	identifier: string,
 ): Promise<{ allowed: boolean; remaining: number }> => {
 	const key = `rate-limit:${identifier}`;
-	const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
+	const currentTimestamp = Math.floor(Date.now() / 1000);
 
-	// Get the current count and timestamp from the rate-limiting KV
 	const data = await env['link-shortener-ratelimit'].get(key);
 	const { count = 0, timestamp = currentTimestamp } = data ? JSON.parse(data) : {};
 
-	// Reset the counter if the time window has passed
 	if (currentTimestamp - timestamp >= RATE_LIMIT.WINDOW_SECONDS) {
 		await env['link-shortener-ratelimit'].put(key, JSON.stringify({ count: 1, timestamp: currentTimestamp }));
 		return { allowed: true, remaining: RATE_LIMIT.MAX_REQUESTS - 1 };
 	}
 
-	// Check if the limit has been exceeded
 	if (count >= RATE_LIMIT.MAX_REQUESTS) {
 		return { allowed: false, remaining: 0 };
 	}
 
-	// Increment the counter
 	await env['link-shortener-ratelimit'].put(key, JSON.stringify({ count: count + 1, timestamp }));
 	return { allowed: true, remaining: RATE_LIMIT.MAX_REQUESTS - (count + 1) };
 };
@@ -73,12 +68,10 @@ export default {
 	async fetch(request: Request, env: { 'link-shortener-kv': KVNamespace; 'link-shortener-ratelimit': KVNamespace }): Promise<Response> {
 		const url = new URL(request.url);
 
-		// Skip rate limiting for OPTIONS requests (CORS preflight)
 		if (request.method === 'OPTIONS') {
 			return new Response(null, { headers: getCorsHeaders(request) });
 		}
 
-		// Apply rate limiting to API endpoints
 		if (url.pathname === '/api') {
 			const identifier = getClientIdentifier(request);
 			const { allowed, remaining } = await checkRateLimit(env, identifier);
@@ -95,7 +88,6 @@ export default {
 				});
 			}
 
-			// Add rate limit headers to successful responses
 			const headers = {
 				...getCorsHeaders(request),
 				'X-RateLimit-Remaining': remaining.toString(),
@@ -103,7 +95,6 @@ export default {
 			};
 
 			try {
-				// Handle URL creation
 				if (request.method === 'POST') {
 					const body: { url?: string } = await request.json();
 					const headers = getCorsHeaders(request);
@@ -118,7 +109,6 @@ export default {
 						return new Response('Invalid URL', { status: 400, headers });
 					}
 
-					// Check for duplicate entry
 					const existingKey = await env['link-shortener-kv'].list({ prefix: '', limit: 1000 });
 					for (const item of existingKey.keys) {
 						const storedUrl = await env['link-shortener-kv'].get(item.name);
@@ -129,7 +119,6 @@ export default {
 						}
 					}
 
-					// Generate unique key
 					let key: string, exists: string | null;
 					do {
 						key = generateRandomString();
@@ -147,7 +136,6 @@ export default {
 					});
 				}
 
-				// Handle URL retrieval
 				if (request.method === 'GET') {
 					const key = url.searchParams.get('key');
 					const headers = getCorsHeaders(request);
@@ -171,8 +159,7 @@ export default {
 			}
 		}
 
-		// Handle short URL redirects
-		const key = url.pathname.slice(1).split('/')[0]; // Ignore trailing paths
+		const key = url.pathname.slice(1).split('/')[0]; // ignore trailing paths
 		if (key) {
 			const storedUrl = await env['link-shortener-kv'].get(key);
 			if (storedUrl) {
@@ -180,7 +167,6 @@ export default {
 			}
 		}
 
-		// Redirect to https://link-shortener.jfa.dev/ if base domain is called without a key
 		if (url.hostname === 'jfa.ovh' && !key) {
 			return Response.redirect('https://link-shortener.jfa.dev/', 302);
 		}
