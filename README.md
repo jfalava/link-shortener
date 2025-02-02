@@ -2,7 +2,7 @@
 
 KV database studies and proofs of concept
 
-## [Terms of Use](https://link-shortener.jfa.dev/tos)
+## JFA Link Shortener [Terms of Use](https://link-shortener.jfa.dev/tos)
 
 ## The code
 
@@ -72,13 +72,13 @@ $ pnpx wrangler kv:namespace create "RATE_LIMIT"
 ```toml
 routes = [{ pattern = "<your endpoint domain>", custom_domain = true }]
 
-[[kv_namespaces]];
-binding = "URL_STORAGE";
+[[kv_namespaces]]
+binding = "URL_STORAGE"
 id = "your-url-storage-kv-id"
 
-[[kv_namespaces]];
-binding = "RATE_LIMIT";
-id = "your-rate-limit-kv-id";
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "your-rate-limit-kv-id"
 ```
 
 4. Deploy to Cloudflare:
