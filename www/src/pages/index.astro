@@ -1,8 +1,11 @@
 ---
 import IndexLayout from "@/layouts/Index.astro";
 
+import Footer from "@/components/layout/Footer.astro";
+
 import { getLocale } from "@/utils/get-locale";
 const locale = getLocale();
 ---
 
 <IndexLayout locale={locale} />
+<Footer locale={locale} />
