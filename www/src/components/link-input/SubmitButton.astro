@@ -91,7 +91,7 @@ const { locale } = Astro.props;
     const url = input.value;
 
     if (!url) {
-      showToastWithTimeout(emptyInputToast, 3000);
+      showToastWithTimeout(emptyInputToast, 5000);
       return;
     }
 
@@ -117,10 +117,10 @@ const { locale } = Astro.props;
       shortenedLinkSection.classList.add("visible");
       shortenedLink.textContent = shortenedUrl;
 
-      showToastWithTimeout(kvLatencyToast, 3000);
+      showToastWithTimeout(kvLatencyToast, 5000);
     } catch (error) {
       console.error("Error:", error);
-      showToastWithTimeout(badInputToast, 3000);
+      showToastWithTimeout(badInputToast, 5000);
     } finally {
       buttonText.style.opacity = "1";
       loadingSpinner.style.opacity = "0";

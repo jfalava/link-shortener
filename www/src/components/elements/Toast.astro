@@ -18,6 +18,8 @@ const { toastContainerID, toastMessage } = Astro.props;
     <div class="pr-3">
       <slot />
     </div>
-    <p class="text-geist max-xl:text-sm">{toastMessage}</p>
+    <p class="text-geist max-xl:text-sm xl:text-base 2xl:text-xl">
+      {toastMessage}
+    </p>
   </div>
 </div>
