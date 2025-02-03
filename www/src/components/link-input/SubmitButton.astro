@@ -32,24 +32,40 @@ const { locale } = Astro.props;
 <script>
   const button = document.getElementById("submit-button");
   const toastTimeouts = new Map();
-  const toastStates = new Map();
+
+  function hideAllToasts() {
+    const toasts = ["empty-input", "bad-input", "kv-latency"]
+      .map((id) => document.getElementById(id))
+      .filter((element): element is HTMLElement => element !== null);
+
+    toasts.forEach((toast) => {
+      toast.classList.add("invisible");
+      toast.classList.remove("slide-in-out");
+      const existingTimeout = toastTimeouts.get(toast);
+      if (existingTimeout) {
+        clearTimeout(existingTimeout);
+      }
+    });
+  }
 
   function showToastWithTimeout(toastElement: HTMLElement, duration: number) {
-    const isVisible = toastStates.get(toastElement);
-    const existingTimeout = toastTimeouts.get(toastElement);
+    hideAllToasts();
 
-    if (isVisible && existingTimeout) {
+    toastElement.classList.remove("slide-in-out");
+    toastElement.classList.remove("invisible");
+
+    void toastElement.offsetWidth;
+
+    toastElement.classList.add("slide-in-out");
+
+    const existingTimeout = toastTimeouts.get(toastElement);
+    if (existingTimeout) {
       clearTimeout(existingTimeout);
     }
-
-    toastElement.classList.remove("invisible");
-    toastElement.classList.add("slide-in-out");
-    toastStates.set(toastElement, true);
 
     const newTimeout = setTimeout(() => {
       toastElement.classList.add("invisible");
       toastElement.classList.remove("slide-in-out");
-      toastStates.set(toastElement, false);
     }, duration);
 
     toastTimeouts.set(toastElement, newTimeout);

@@ -11,12 +11,12 @@ const { toastContainerID, toastMessage } = Astro.props;
 <div id={toastContainerID} class="fixed invisible top-3">
   <div class="flex justify-center">
     <div
-      class="font-light px-3 py-2 border border-solid border-bwhite dark:border-bblack rounded-xl flex justify-evenly items-center"
+      class="font-light px-3 py-2 border border-solid border-bwhite dark:border-bblack rounded-xl flex justify-evenly items-center backdrop-blur-md bg-bwhite/70 dark:bg-bblack/70 whitespace-nowrap"
     >
       <div class="pr-3">
         <slot />
       </div>
-      <p class="text-geist">
+      <p class="text-geist max-sm:text-xs">
         {toastMessage}
       </p>
     </div>
