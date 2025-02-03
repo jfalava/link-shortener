@@ -12,7 +12,7 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<div class="relative">
+<div class="flex justify-center relative">
   <BadInputNotification locale={locale} />
   <EmptyInputNotification locale={locale} />
   <KVLatencyNotification locale={locale} />
