@@ -31,7 +31,7 @@ Optional components:
    - Server-side: Validates URL format and rate limiting
 3. System checks for existing shortened URLs to prevent duplicates
 4. For new URLs:
-   - Generates a unique `XXX-XXX-XXX` format key
+   - Generates a unique `xxxxx` format key
    - Stores URL with `90-day` expiration
    - Returns key in `JSON` response
 5. Frontend constructs final shortened URL (`domain`/`key`)
@@ -39,7 +39,8 @@ Optional components:
 
 ## How to deploy
 
-### Cloudflare
+<details>
+<summary>Cloudflare</summary>
 
 #### Prerequisites
 
@@ -70,15 +71,26 @@ $ pnpx wrangler kv:namespace create "RATE_LIMIT"
 3. Configure wrangler.toml:
 
 ```toml
-routes = [{ pattern = "<your endpoint domain>", custom_domain = true }]
+name = "<your project name>"
+main = "src/index.ts"
+compatibility_date = "2025-01-29"
+compatibility_flags = ["nodejs_compat"]
+routes = [{ pattern = "<your domain>", custom_domain = true }]
+
+[observability]
+enabled = true
+
+[placement]
+mode = "smart"
 
 [[kv_namespaces]]
 binding = "URL_STORAGE"
-id = "your-url-storage-kv-id"
+id = "<URL_STORAGE id>"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "your-rate-limit-kv-id"
+id = "<RATE_LIMIT id>"
+
 ```
 
 4. Deploy to Cloudflare:
@@ -88,6 +100,8 @@ $ pnpm run deploy
 ```
 
 After deployment, your worker will be available at `your-worker.your-subdomain.workers.dev`
+
+</details>
 
 ## TODO
 
