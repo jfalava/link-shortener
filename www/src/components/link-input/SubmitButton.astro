@@ -16,13 +16,13 @@ const { locale } = Astro.props;
   ariaBusy={false}
   ariaLabel={localizedShortenLinkButton[locale]}
 >
-  <div class="relative">
-    <p id="button-text" class="relative">
+  <div class="grid [grid-template-areas:'submitbutton']">
+    <p id="button-text" class="grid gap-y-3 visible [grid-area:submitbutton]">
       {localizedShortenLinkButton[locale]}
     </p>
     <div
       id="loading-spinner"
-      class="absolute opacity-0 inset-0 flex items-center justify-center"
+      class="grid gap-y-3 visible opacity-0 [grid-area:submitbutton] items-center justify-center"
     >
       <LoadingSpinner />
     </div>
