@@ -41,10 +41,10 @@ const { default: ToS } = await import(`../components/tos/ToS.${locale}.mdx`);
   }
 </style>
 <Main locale={locale}>
-  <div
-    class="max-w-[90%] ml-[5%] text-geist xl:text-balance hyphens-auto gap-x-3"
-  >
-    <ToS />
+  <div class="flex justify-center">
+    <div class="max-w-[90%] text-geist xl:text-balance hyphens-auto gap-x-3">
+      <ToS />
+    </div>
   </div>
   <a href="/" class="my-6">
     <LeftArrow />
