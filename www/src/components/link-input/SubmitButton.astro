@@ -131,7 +131,9 @@ const { locale } = Astro.props;
       shortenedLinkSection.classList.add("visible");
       shortenedLink.textContent = shortenedUrl;
 
-      showToastWithTimeout(kvLatencyToast, 5000);
+      if (response.ok) {
+        showToastWithTimeout(kvLatencyToast, 5000);
+      }
     } catch (error) {
       console.error("Error:", error);
       showToastWithTimeout(badInputToast, 5000);

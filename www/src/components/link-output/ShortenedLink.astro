@@ -118,9 +118,15 @@ const { locale } = Astro.props;
         if (submitLinkSection && shortenedLinkSection && longUrlInput) {
           submitLinkSection.classList.remove("invisible");
           submitLinkSection.classList.add("visible");
-          shortenedLinkSection.classList.remove("visible");
+
           shortenedLinkSection.classList.add("invisible");
+          shortenedLinkSection.classList.remove("visible");
+
           longUrlInput.value = "";
+
+          if (shortenedLink) {
+            shortenedLink.textContent = "";
+          }
         }
       });
     }
