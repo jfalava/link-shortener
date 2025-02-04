@@ -79,7 +79,7 @@ const { locale } = Astro.props;
     loadingSpinner.style.opacity = "1";
 
     try {
-      const response = await fetch("http://jfa.ovh/api", {
+      const response = await fetch("https://jfa.ovh/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
