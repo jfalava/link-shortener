@@ -1,6 +1,6 @@
 {
   "name": "link-shortener",
-  "version": "0.1.1",
+  "version": "0.2",
   "packageManager": "pnpm@9.15.4",
   "workspaces": [
     "cloudflare",

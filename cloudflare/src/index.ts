@@ -1,6 +1,6 @@
 const RATE_LIMIT = {
-	MAX_REQUESTS: 100,
-	WINDOW_SECONDS: 600,
+	MAX_REQUESTS: 200,
+	WINDOW_SECONDS: 172800,
 };
 
 const generateRandomString = (): string => {
@@ -100,10 +100,27 @@ export default {
 						return new Response('Missing URL', { status: 400, headers });
 					}
 
+					if (!body.url.startsWith('http://') && !body.url.startsWith('https://')) {
+						return new Response('URL must include http:// or https://', {
+							status: 422,
+							headers: { ...headers, 'Content-Type': 'text/plain' },
+						});
+					}
+
 					try {
-						new URL(body.url);
-					} catch {
-						return new Response('Invalid URL', { status: 400, headers });
+						const parsedUrl = new URL(body.url);
+
+						if (!parsedUrl.hostname || parsedUrl.hostname.split('.').length < 2) {
+							return new Response('Invalid URL format - missing proper domain', {
+								status: 400,
+								headers: { ...headers, 'Content-Type': 'text/plain' },
+							});
+						}
+					} catch (error) {
+						return new Response('Invalid URL format - check for typos or gibberish', {
+							status: 400,
+							headers: { ...headers, 'Content-Type': 'text/plain' },
+						});
 					}
 
 					const existingKey = await env['link-shortener-kv'].list({ prefix: '', limit: 1000 });
