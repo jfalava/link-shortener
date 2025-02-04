@@ -13,6 +13,10 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<Toast toastContainerID="bad-input" toastMessage={localizedBadInput[locale]}>
+<Toast
+  toastContainerID="bad-input"
+  toastMessage={localizedBadInput[locale]}
+  toastColor="red-500"
+>
   <Bad />
 </Toast>
