@@ -26,7 +26,6 @@ const getCorsHeaders = (request: Request): HeadersInit => {
 			'Access-Control-Allow-Headers': '',
 		};
 	}
-
 	return {
 		'Access-Control-Allow-Origin': origin || '',
 		'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -44,19 +43,15 @@ const checkRateLimit = async (
 ): Promise<{ allowed: boolean; remaining: number }> => {
 	const key = `rate-limit:${identifier}`;
 	const currentTimestamp = Math.floor(Date.now() / 1000);
-
 	const data = await env['link-shortener-ratelimit'].get(key);
 	const { count = 0, timestamp = currentTimestamp } = data ? JSON.parse(data) : {};
-
 	if (currentTimestamp - timestamp >= RATE_LIMIT.WINDOW_SECONDS) {
 		await env['link-shortener-ratelimit'].put(key, JSON.stringify({ count: 1, timestamp: currentTimestamp }));
 		return { allowed: true, remaining: RATE_LIMIT.MAX_REQUESTS - 1 };
 	}
-
 	if (count >= RATE_LIMIT.MAX_REQUESTS) {
 		return { allowed: false, remaining: 0 };
 	}
-
 	await env['link-shortener-ratelimit'].put(key, JSON.stringify({ count: count + 1, timestamp }));
 	return { allowed: true, remaining: RATE_LIMIT.MAX_REQUESTS - (count + 1) };
 };
@@ -64,7 +59,6 @@ const checkRateLimit = async (
 export default {
 	async fetch(request: Request, env: { 'link-shortener-kv': KVNamespace; 'link-shortener-ratelimit': KVNamespace }): Promise<Response> {
 		const url = new URL(request.url);
-
 		if (request.method === 'OPTIONS') {
 			return new Response(null, { headers: getCorsHeaders(request) });
 		}
@@ -72,7 +66,6 @@ export default {
 		if (url.pathname === '/api') {
 			const identifier = getClientIdentifier(request);
 			const { allowed, remaining } = await checkRateLimit(env, identifier);
-
 			if (!allowed) {
 				return new Response('Too Many Requests', {
 					status: 429,
@@ -94,25 +87,27 @@ export default {
 			try {
 				if (request.method === 'POST') {
 					const body: { url?: string } = await request.json();
-					const headers = getCorsHeaders(request);
-
 					if (!body?.url) {
 						return new Response('Missing URL', { status: 400, headers });
 					}
 
-					if (!body.url.startsWith('http://') && !body.url.startsWith('https://')) {
-						return new Response('URL must include http:// or https://', {
-							status: 422,
-							headers: { ...headers, 'Content-Type': 'text/plain' },
-						});
-					}
+					const rawUrl = body.url.trim();
+					const hasProtocol = rawUrl.startsWith('http://') || rawUrl.startsWith('https://');
+					const processedUrl = hasProtocol ? rawUrl : `http://${rawUrl}`;
 
 					try {
-						const parsedUrl = new URL(body.url);
+						const parsedUrl = new URL(processedUrl);
 
 						if (!parsedUrl.hostname || parsedUrl.hostname.split('.').length < 2) {
 							return new Response('Invalid URL format - missing proper domain', {
 								status: 400,
+								headers: { ...headers, 'Content-Type': 'text/plain' },
+							});
+						}
+
+						if (!hasProtocol) {
+							return new Response('URL must include http:// or https://', {
+								status: 422,
 								headers: { ...headers, 'Content-Type': 'text/plain' },
 							});
 						}
@@ -139,11 +134,7 @@ export default {
 						exists = await env['link-shortener-kv'].get(key);
 					} while (exists);
 
-					await env['link-shortener-kv'].put(
-						key,
-						body.url,
-						{ expirationTtl: 60 * 60 * 24 * 90 }, // 90 days TTL
-					);
+					await env['link-shortener-kv'].put(key, body.url, { expirationTtl: 60 * 60 * 24 * 90 });
 
 					return new Response(JSON.stringify({ key }), {
 						headers: { 'Content-Type': 'application/json', ...headers },
@@ -152,8 +143,6 @@ export default {
 
 				if (request.method === 'GET') {
 					const key = url.searchParams.get('key');
-					const headers = getCorsHeaders(request);
-
 					if (!key) {
 						return new Response('Missing key', { status: 400, headers });
 					}

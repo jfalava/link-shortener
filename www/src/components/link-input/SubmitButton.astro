@@ -16,7 +16,7 @@ const { locale } = Astro.props;
   ariaBusy={false}
   ariaLabel={localizedShortenLinkButton[locale]}
 >
-  <div class="grid [grid-template-areas:'submitbutton']">
+  <div class="grid [grid-template-areas:'submitbutton'] z-0">
     <p id="button-text" class="grid gap-y-3 visible [grid-area:submitbutton]">
       {localizedShortenLinkButton[locale]}
     </p>
@@ -31,45 +31,12 @@ const { locale } = Astro.props;
 
 <script>
   const button = document.getElementById("submit-button");
-  const toastTimeouts = new Map();
+  import {
+    hideAllToasts,
+    showToastWithTimeout,
+  } from "@/utils/toast-visibility";
 
-  function hideAllToasts() {
-    const toasts = ["empty-input", "bad-input", "missing-protocol"]
-      .map((id) => document.getElementById(id))
-      .filter((element): element is HTMLElement => element !== null);
-
-    toasts.forEach((toast) => {
-      toast.classList.add("invisible");
-      toast.classList.remove("slide-in-out");
-      const existingTimeout = toastTimeouts.get(toast);
-      if (existingTimeout) {
-        clearTimeout(existingTimeout);
-      }
-    });
-  }
-
-  function showToastWithTimeout(toastElement: HTMLElement, duration: number) {
-    hideAllToasts();
-
-    toastElement.classList.remove("slide-in-out");
-    toastElement.classList.remove("invisible");
-
-    void toastElement.offsetWidth;
-
-    toastElement.classList.add("slide-in-out");
-
-    const existingTimeout = toastTimeouts.get(toastElement);
-    if (existingTimeout) {
-      clearTimeout(existingTimeout);
-    }
-
-    const newTimeout = setTimeout(() => {
-      toastElement.classList.add("invisible");
-      toastElement.classList.remove("slide-in-out");
-    }, duration);
-
-    toastTimeouts.set(toastElement, newTimeout);
-  }
+  hideAllToasts();
 
   async function handleSubmit() {
     const input = document.getElementById("long-url") as HTMLInputElement;
@@ -101,7 +68,6 @@ const { locale } = Astro.props;
     ) {
       return;
     }
-
     const url = input.value;
 
     if (!url) {
@@ -113,7 +79,7 @@ const { locale } = Astro.props;
     loadingSpinner.style.opacity = "1";
 
     try {
-      const response = await fetch("https://jfa.ovh/api", {
+      const response = await fetch("http://localhost:8787/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,7 +89,11 @@ const { locale } = Astro.props;
 
       if (!response.ok) {
         if (response.status === 422) {
-          showToastWithTimeout(missingProtocolToast, 5000);
+          const missingProtocolToast =
+            document.getElementById("missing-protocol");
+          if (missingProtocolToast) {
+            showToastWithTimeout(missingProtocolToast, 5000);
+          }
           return;
         }
         showToastWithTimeout(badInputToast, 5000);
@@ -131,11 +101,6 @@ const { locale } = Astro.props;
       }
 
       const result = await response.json();
-      if (!result.key) {
-        showToastWithTimeout(badInputToast, 5000);
-        return;
-      }
-
       const shortenedUrl = `https://jfa.ovh/${result.key}`;
       submitLinkSection.classList.remove("visible");
       submitLinkSection.classList.add("invisible");
@@ -143,7 +108,6 @@ const { locale } = Astro.props;
       shortenedLinkSection.classList.add("visible");
       shortenedLink.textContent = shortenedUrl;
     } catch (error) {
-      console.error("Error:", error);
       showToastWithTimeout(badInputToast, 5000);
     } finally {
       buttonText.style.opacity = "1";
@@ -157,5 +121,7 @@ const { locale } = Astro.props;
     }
   });
 
-  button?.addEventListener("click", handleSubmit);
+  button?.addEventListener("click", () => {
+    handleSubmit();
+  });
 </script>
