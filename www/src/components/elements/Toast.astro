@@ -3,25 +3,27 @@ import "@/styles/keyframes.css";
 interface Props {
   toastContainerID: string;
   toastMessage: string;
-  toastColor: string;
+  toastBorderColor: string;
+  toastTextColor: string;
 }
 
-const { toastContainerID, toastMessage, toastColor } = Astro.props;
+const { toastContainerID, toastMessage, toastBorderColor, toastTextColor } =
+  Astro.props;
 ---
 
 <div id={toastContainerID} class="fixed invisible top-3">
   <div class="flex justify-center">
     <div
       class={`font-light px-3 py-2
-      border border-solid border-${toastColor} dark:border-${toastColor}
+      border border-solid ${toastBorderColor}
       rounded-xl flex justify-evenly items-center
       backdrop-blur-md bg-bwhite/70 dark:bg-bblack/70
       whitespace-nowrap`}
     >
-      <div class={`pr-3 text-${toastColor}`}>
+      <div class={`pr-3 ${toastTextColor}`}>
         <slot />
       </div>
-      <p class={`text-geist max-sm:text-xs text-${toastColor}`}>
+      <p class={`text-geist max-sm:text-xs ${toastTextColor}`}>
         {toastMessage}
       </p>
     </div>

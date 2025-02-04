@@ -2,9 +2,6 @@
   "name": "link-shortener-www",
   "type": "module",
   "version": "0.1.4a",
-  "engines": {
-    "pnpm": "9.15.4"
-  },
   "scripts": {
     "dev": "astro dev --host",
     "build": "astro build"

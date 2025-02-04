@@ -16,7 +16,8 @@ const { locale } = Astro.props;
 <Toast
   toastContainerID="bad-input"
   toastMessage={localizedBadInput[locale]}
-  toastColor="red-500"
+  toastBorderColor="border-red-500"
+  toastTextColor="text-red-500"
 >
   <Bad />
 </Toast>
