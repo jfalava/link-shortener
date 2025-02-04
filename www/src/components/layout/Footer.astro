@@ -24,7 +24,7 @@ const currentYear = new Date().getFullYear();
     class="flex justify-center border-t border-solid border-bwhite dark:border-bblack py-6"
   >
     <div
-      class="grid xl:grid-cols-2 place-items-center pb-6 select-none max-xl:gap-y-3"
+      class="grid xl:grid-cols-3 place-items-center pb-6 select-none max-xl:gap-y-3"
     >
       <p class="text-geist max-lg:text-sm font-semibold">
         Jorge Fernando Álava&nbsp&copy;&nbsp{currentYear}
@@ -47,6 +47,18 @@ const currentYear = new Date().getFullYear();
             {localizedSourceCode[locale]}
           </p>
         </a>
+      </div>
+      <div
+        class="grid gap-y-3 pl-3 py-3 xl:border-l xl:border-solid xl:border-bwhite xl:dark:border-bblack place-items-start"
+      >
+        <a href="https://astro.build"
+          ><img
+            src="https://astro.badg.es/v2/built-with-astro/small.svg"
+            alt="Built with Astro"
+            width="192"
+            height="32"
+          /></a
+        >
       </div>
     </div>
   </div>
