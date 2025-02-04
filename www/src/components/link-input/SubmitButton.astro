@@ -34,7 +34,7 @@ const { locale } = Astro.props;
   const toastTimeouts = new Map();
 
   function hideAllToasts() {
-    const toasts = ["empty-input", "bad-input"]
+    const toasts = ["empty-input", "bad-input", "missing-protocol"]
       .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => element !== null);
 
@@ -86,6 +86,7 @@ const { locale } = Astro.props;
     const shortenedLink = document.getElementById("shortened-link");
     const badInputToast = document.getElementById("bad-input");
     const emptyInputToast = document.getElementById("empty-input");
+    const missingProtocolToast = document.getElementById("missing-protocol");
 
     if (
       !input ||
@@ -95,7 +96,8 @@ const { locale } = Astro.props;
       !shortenedLinkSection ||
       !shortenedLink ||
       !badInputToast ||
-      !emptyInputToast
+      !emptyInputToast ||
+      !missingProtocolToast
     ) {
       return;
     }
@@ -119,10 +121,22 @@ const { locale } = Astro.props;
         body: JSON.stringify({ url }),
       });
 
-      const result = await response.json();
-      const key = result.key;
-      const shortenedUrl = `https://jfa.ovh/${key}`;
+      if (!response.ok) {
+        if (response.status === 422) {
+          showToastWithTimeout(missingProtocolToast, 5000);
+          return;
+        }
+        showToastWithTimeout(badInputToast, 5000);
+        return;
+      }
 
+      const result = await response.json();
+      if (!result.key) {
+        showToastWithTimeout(badInputToast, 5000);
+        return;
+      }
+
+      const shortenedUrl = `https://jfa.ovh/${result.key}`;
       submitLinkSection.classList.remove("visible");
       submitLinkSection.classList.add("invisible");
       shortenedLinkSection.classList.remove("invisible");
