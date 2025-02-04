@@ -34,7 +34,7 @@ const { locale } = Astro.props;
   const toastTimeouts = new Map();
 
   function hideAllToasts() {
-    const toasts = ["empty-input", "bad-input", "kv-latency"]
+    const toasts = ["empty-input", "bad-input"]
       .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => element !== null);
 
@@ -85,7 +85,6 @@ const { locale } = Astro.props;
     );
     const shortenedLink = document.getElementById("shortened-link");
     const badInputToast = document.getElementById("bad-input");
-    const kvLatencyToast = document.getElementById("kv-latency");
     const emptyInputToast = document.getElementById("empty-input");
 
     if (
@@ -96,7 +95,6 @@ const { locale } = Astro.props;
       !shortenedLinkSection ||
       !shortenedLink ||
       !badInputToast ||
-      !kvLatencyToast ||
       !emptyInputToast
     ) {
       return;
@@ -130,10 +128,6 @@ const { locale } = Astro.props;
       shortenedLinkSection.classList.remove("invisible");
       shortenedLinkSection.classList.add("visible");
       shortenedLink.textContent = shortenedUrl;
-
-      if (response.ok) {
-        showToastWithTimeout(kvLatencyToast, 5000);
-      }
     } catch (error) {
       console.error("Error:", error);
       showToastWithTimeout(badInputToast, 5000);
