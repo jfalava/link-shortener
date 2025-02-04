@@ -54,16 +54,17 @@ const { locale } = Astro.props;
     ariaBusy={false}
     ariaLabel={localizedShortenMore[locale]}
   >
-    <p class="">{localizedShortenMore[locale]}</p>
+    <p>{localizedShortenMore[locale]}</p>
   </Button>
 </div>
 <script>
+  import { handleShare } from "@/utils/share-link";
+  import { handleCopy } from "@/utils/copy-link";
+
   document.addEventListener("DOMContentLoaded", () => {
-    const copyButton = document.querySelector("#copy-button");
-    const okButton = document.querySelector("#ok-button");
-    const shortenedLink = document.querySelector("#shortened-link");
-    const copyButtonElement = document.querySelector("#copy-button-element");
-    const shareButton = document.querySelector("#share-button");
+    handleShare();
+    handleCopy();
+
     const shortenMoreLinksButton = document.querySelector<HTMLElement>(
       "#shorten-more-links",
     );
@@ -72,46 +73,7 @@ const { locale } = Astro.props;
     );
     const submitLinkSection = document.querySelector("#submit-link-section");
     const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
-
-    if (copyButtonElement) {
-      copyButtonElement.addEventListener("click", async () => {
-        const textToCopy = shortenedLink?.textContent;
-        if (!textToCopy) return;
-
-        try {
-          await navigator.clipboard.writeText(textToCopy);
-
-          if (copyButton && okButton) {
-            copyButton.classList.add("opacity-0", "inset-0");
-            okButton.classList.remove("opacity-0");
-
-            setTimeout(() => {
-              copyButton.classList.remove("opacity-0", "inset-0");
-              okButton.classList.add("opacity-0");
-            }, 2000);
-          }
-        } catch (err) {
-          console.error("Failed to copy text: ", err);
-        }
-      });
-    }
-
-    if (shareButton) {
-      shareButton.addEventListener("click", async () => {
-        const textToShare = shortenedLink?.textContent;
-        if (!textToShare) return;
-
-        try {
-          await navigator.share({
-            title: "Shortened Link",
-            text: textToShare,
-            url: textToShare,
-          });
-        } catch (err) {
-          console.error("Failed to share text: ", err);
-        }
-      });
-    }
+    const shortenedLink = document.querySelector("#shortened-link");
 
     if (shortenMoreLinksButton) {
       shortenMoreLinksButton.addEventListener("click", () => {
