@@ -61,36 +61,34 @@ const { locale } = Astro.props;
   import { handleShare } from "@/utils/share-link";
   import { handleCopy } from "@/utils/copy-link";
 
-  document.addEventListener("DOMContentLoaded", () => {
-    handleShare();
-    handleCopy();
+  handleShare();
+  handleCopy();
 
-    const shortenMoreLinksButton = document.querySelector<HTMLElement>(
-      "#shorten-more-links",
-    );
-    const shortenedLinkSection = document.querySelector(
-      "#shortened-link-section",
-    );
-    const submitLinkSection = document.querySelector("#submit-link-section");
-    const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
-    const shortenedLink = document.querySelector("#shortened-link");
+  const shortenMoreLinksButton = document.querySelector<HTMLElement>(
+    "#shorten-more-links",
+  );
+  const shortenedLinkSection = document.querySelector(
+    "#shortened-link-section",
+  );
+  const submitLinkSection = document.querySelector("#submit-link-section");
+  const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
+  const shortenedLink = document.querySelector("#shortened-link");
 
-    if (shortenMoreLinksButton) {
-      shortenMoreLinksButton.addEventListener("click", () => {
-        if (submitLinkSection && shortenedLinkSection && longUrlInput) {
-          submitLinkSection.classList.remove("invisible");
-          submitLinkSection.classList.add("visible");
+  if (shortenMoreLinksButton) {
+    shortenMoreLinksButton.addEventListener("click", () => {
+      if (submitLinkSection && shortenedLinkSection && longUrlInput) {
+        submitLinkSection.classList.remove("invisible");
+        submitLinkSection.classList.add("visible");
 
-          shortenedLinkSection.classList.add("invisible");
-          shortenedLinkSection.classList.remove("visible");
+        shortenedLinkSection.classList.add("invisible");
+        shortenedLinkSection.classList.remove("visible");
 
-          longUrlInput.value = "";
+        longUrlInput.value = "";
 
-          if (shortenedLink) {
-            shortenedLink.textContent = "";
-          }
+        if (shortenedLink) {
+          shortenedLink.textContent = "";
         }
-      });
-    }
-  });
+      }
+    });
+  }
 </script>
