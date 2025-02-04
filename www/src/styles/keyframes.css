@@ -1,0 +1,27 @@
+@keyframes slideInAndOut {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  6% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  94% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.slide-in-out {
+  visibility: visible;
+  animation: slideInAndOut 5s ease-in-out forwards;
+}
+
+.slide-in-out {
+  animation: slideInAndOut 3s ease-in-out forwards;
+}

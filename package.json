@@ -1,0 +1,8 @@
+{
+  "name": "link-shortener",
+  "version": "0.2",
+  "workspaces": [
+    "cloudflare",
+    "www"
+  ]
+}

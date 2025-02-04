@@ -1,0 +1,23 @@
+---
+import type { Locale } from "@/utils/get-locale";
+import Toast from "../elements/Toast.astro";
+
+import Bad from "@/assets/Bad.astro";
+
+import { localizedBadInput } from "@/i18n/components/toasts/BadInput.i18n";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Toast
+  toastContainerID="bad-input"
+  toastMessage={localizedBadInput[locale]}
+  toastBorderColor="border-red-500"
+  toastTextColor="text-red-500"
+>
+  <Bad />
+</Toast>

@@ -1,0 +1,23 @@
+---
+import type { Locale } from "@/utils/get-locale";
+import Toast from "../elements/Toast.astro";
+
+import Empty from "@/assets/Empty.astro";
+
+import { localizedEmptyInput } from "@/i18n/components/toasts/Empty.i18n";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Toast
+  toastContainerID="empty-input"
+  toastMessage={localizedEmptyInput[locale]}
+  toastBorderColor="border-amber-500"
+  toastTextColor="text-amber-500"
+>
+  <Empty />
+</Toast>

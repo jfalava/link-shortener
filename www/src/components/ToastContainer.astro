@@ -1,0 +1,19 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import BadInputNotification from "@/components/toasts/BadInputNotification.astro";
+import EmptyInputNotification from "@/components/toasts/EmptyInputNotification.astro";
+import MissingProtocol from "@/components/toasts/MissingProtocol.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="flex justify-center relative">
+  <BadInputNotification locale={locale} />
+  <EmptyInputNotification locale={locale} />
+  <MissingProtocol locale={locale} />
+</div>

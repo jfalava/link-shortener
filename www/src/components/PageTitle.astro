@@ -1,0 +1,55 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import { Image } from "astro:assets";
+import { localizedPageTitle } from "@/i18n/layouts/PageTitle.i18n";
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="grid place-items-center gap-y-3 min-w-[clamp(300px,50vw,800px)]">
+  <div class="grid [grid-template-areas:'pagetitle']">
+    <div class="grid [grid-area:pagetitle]">
+      <Image
+        src="/favicon/favicon.white.webp"
+        height={100}
+        width={100}
+        alt="JFA Icon Dark Theme"
+        class="hidden"
+        id="darkThemeIcon"
+        loading="eager"
+      />
+    </div>
+    <div class="grid [grid-area:pagetitle]">
+      <Image
+        src="/favicon/favicon.black.webp"
+        height={100}
+        width={100}
+        alt="JFA Icon Light Theme"
+        class="dark:hidden"
+        id="lightThemeIcon"
+        loading="eager"
+      />
+    </div>
+  </div>
+  <div class="grid place-items-left">
+    <h1 class="text-geist xl:font-bold text-3xl">
+      {localizedPageTitle[locale]}
+    </h1>
+  </div>
+</div>
+
+<script>
+  const darkThemeIcon = document.getElementById("darkThemeIcon");
+  const lightThemeIcon = document.getElementById("lightThemeIcon");
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      darkThemeIcon?.classList.toggle("hidden", !e.matches);
+      lightThemeIcon?.classList.toggle("hidden", e.matches);
+    });
+</script>

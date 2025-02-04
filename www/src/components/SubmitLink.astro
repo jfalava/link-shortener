@@ -1,0 +1,17 @@
+---
+import type { Locale } from "@/utils/get-locale";
+
+import TextInput from "@/components/link-input/TextInput.astro";
+import SubmitButton from "@/components/link-input/SubmitButton.astro";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="grid gap-y-3 visible [grid-area:shared]" id="submit-link-section">
+  <TextInput locale={locale} />
+  <SubmitButton locale={locale} />
+</div>
