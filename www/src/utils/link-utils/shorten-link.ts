@@ -60,7 +60,11 @@ export async function handleShortenLink(
       created: new Date().toISOString(),
     });
   } catch (error) {
-    showToastWithTimeout(toasts.badInput, 5000);
+    if (error instanceof Error && error.message === "Missing protocol") {
+      showToastWithTimeout(toasts.missingProtocol, 5000);
+    } else {
+      showToastWithTimeout(toasts.badInput, 5000);
+    }
   } finally {
     buttonText.style.opacity = "1";
     loadingSpinner.style.opacity = "0";
