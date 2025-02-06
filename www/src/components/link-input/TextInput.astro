@@ -17,3 +17,7 @@ const { locale } = Astro.props;
   placeholder={localizedTextInputPlaceholder[locale]}
   class="text-mono font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-xl select-none"
 />
+<script>
+  import { inputFocus } from "@/utils/input-focus";
+  inputFocus("long-url");
+</script>

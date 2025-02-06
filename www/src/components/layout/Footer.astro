@@ -26,7 +26,7 @@ const currentYear = new Date().getFullYear();
     <div
       class="grid xl:grid-cols-3 place-items-center pb-6 select-none max-xl:gap-y-3"
     >
-      <p class="text-geist max-lg:text-sm font-semibold">
+      <p class="text-pretendard max-lg:text-sm font-semibold">
         Jorge Fernando Álava&nbsp&copy;&nbsp{currentYear}
       </p>
       <div
@@ -34,7 +34,9 @@ const currentYear = new Date().getFullYear();
       >
         <a href="/tos" class="hover:underline flex justify-center items-center">
           <ToSIcon />
-          <p class="text-geist pl-2 max-lg:text-sm">{localizedToS[locale]}</p>
+          <p class="text-pretendard pl-2 max-lg:text-sm">
+            {localizedToS[locale]}
+          </p>
         </a>
         <a
           href="https://github.com/jfalava/link-shortener?tab=readme-ov-file"
@@ -43,7 +45,7 @@ const currentYear = new Date().getFullYear();
           rel="noopener noreferer"
         >
           <GitHubIcon />
-          <p class="text-geist pl-2 max-lg:text-sm">
+          <p class="text-pretendard pl-2 max-lg:text-sm">
             {localizedSourceCode[locale]}
           </p>
         </a>

@@ -5,9 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 import cloudflare from "@astrojs/cloudflare";
 import robotsTxt from "astro-robots-txt";
-
 import sitemap from "astro-sitemap";
-
 import mdx from "@astrojs/mdx";
 
 // https://astro.build/config

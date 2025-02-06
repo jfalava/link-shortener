@@ -11,6 +11,8 @@ import OKIcon from "@/assets/OKIcon.astro";
 import Button from "@/components/elements/Button.astro";
 import ShareIcon from "@/assets/ShareIcon.astro";
 
+import LinkHistory from "./LinkHistory.astro";
+
 interface Props {
   locale: keyof Locale;
 }
@@ -57,9 +59,12 @@ const { locale } = Astro.props;
     <p>{localizedShortenMore[locale]}</p>
   </Button>
 </div>
+<div>
+  <LinkHistory locale={locale} />
+</div>
 <script>
-  import { handleShare } from "@/utils/share-link";
-  import { handleCopy } from "@/utils/copy-link";
+  import { handleShare } from "@/utils/link-utils/share-link";
+  import { handleCopy } from "@/utils/link-utils/copy-link";
 
   handleShare();
   handleCopy();
@@ -74,20 +79,27 @@ const { locale } = Astro.props;
   const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
   const shortenedLink = document.querySelector("#shortened-link");
 
+  const handleShortenMore = () => {
+    if (submitLinkSection && shortenedLinkSection && longUrlInput) {
+      submitLinkSection.classList.remove("invisible");
+      submitLinkSection.classList.add("visible");
+
+      shortenedLinkSection.classList.add("invisible");
+      shortenedLinkSection.classList.remove("visible");
+
+      longUrlInput.value = "";
+
+      if (shortenedLink) {
+        shortenedLink.textContent = "";
+      }
+    }
+  };
+
   if (shortenMoreLinksButton) {
-    shortenMoreLinksButton.addEventListener("click", () => {
-      if (submitLinkSection && shortenedLinkSection && longUrlInput) {
-        submitLinkSection.classList.remove("invisible");
-        submitLinkSection.classList.add("visible");
-
-        shortenedLinkSection.classList.add("invisible");
-        shortenedLinkSection.classList.remove("visible");
-
-        longUrlInput.value = "";
-
-        if (shortenedLink) {
-          shortenedLink.textContent = "";
-        }
+    shortenMoreLinksButton.addEventListener("click", handleShortenMore);
+    shortenMoreLinksButton.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        handleShortenMore();
       }
     });
   }
