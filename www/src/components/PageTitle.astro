@@ -15,8 +15,8 @@ const { locale } = Astro.props;
     <div class="grid [grid-area:pagetitle]">
       <Image
         src="/favicon/favicon.white.webp"
-        height={100}
-        width={100}
+        height={125}
+        width={125}
         alt="JFA Icon Dark Theme"
         class="hidden"
         id="darkThemeIcon"
@@ -26,8 +26,8 @@ const { locale } = Astro.props;
     <div class="grid [grid-area:pagetitle]">
       <Image
         src="/favicon/favicon.black.webp"
-        height={100}
-        width={100}
+        height={125}
+        width={125}
         alt="JFA Icon Light Theme"
         class="dark:hidden"
         id="lightThemeIcon"
@@ -45,6 +45,10 @@ const { locale } = Astro.props;
 <script>
   const darkThemeIcon = document.getElementById("darkThemeIcon");
   const lightThemeIcon = document.getElementById("lightThemeIcon");
+
+  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  darkThemeIcon?.classList.toggle("hidden", !isDarkMode);
+  lightThemeIcon?.classList.toggle("hidden", isDarkMode);
 
   window
     .matchMedia("(prefers-color-scheme: dark)")
