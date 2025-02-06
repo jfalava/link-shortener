@@ -21,9 +21,14 @@ const { locale } = Astro.props;
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark, light" />
     <meta name="generator" content={Astro.generator} />
     <meta property="og:url" content={currentUrl} />
-    <!-- Meta descriptions -->
+    <!-- Meta tags -->
     <meta name="description" content={localizedMetaDescription[locale]} />
     <meta name="keywords" content={localizedMetaKeywords[locale]} />
     <meta name="author" content="Jorge Fernando Álava" />
@@ -58,19 +63,18 @@ const { locale } = Astro.props;
     />
     <meta name="twitter:creator" content="@jorgefalava" />
     <meta name="twitter:site" content="@jorgefalava" />
-
+    <link
+      rel="icon"
+      type="image/webp"
+      href="/favicon/favicon.black.webp"
+      media="(prefers-color-scheme: light)"
+    />
     <link
       rel="icon"
       type="image/webp"
       href="/favicon/favicon.white.webp"
-      media="(prefers-color-scheme:dark)"
+      media="(prefers-color-scheme: dark)"
     />
-    <link rel="icon" type="image/webp" href="/favicon/favicon.black.webp" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <meta name="color-scheme" content="dark, light" />
     <link
       rel="https://static.jfa.dev/fonts/pretendard/pretendard-variable.woff2"
       type="font/woff2"
