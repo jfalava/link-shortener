@@ -1,0 +1,37 @@
+---
+import type { Locale } from "@/utils/get-locale";
+import { localizedLinkHistory } from "@/i18n/components/LinkHistory.i18n";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div id="history-section" class="my-8" data-locale={locale}>
+  <h2 class="text-xl text-pretendard font-bold mb-4">
+    {localizedLinkHistory[locale]}
+  </h2>
+  <div id="history-list" class="space-y-4 text-geist"></div>
+</div>
+
+<script>
+  import type { Locale } from "@/utils/get-locale";
+  import {
+    renderHistory,
+    deleteEntry,
+  } from "@/utils/link-utils/render-history";
+
+  const historySection = document.getElementById("history-section");
+  const locale = historySection?.dataset.locale;
+
+  (window as { deleteEntry?: (key: string) => void }).deleteEntry = deleteEntry;
+
+  document.addEventListener("DOMContentLoaded", () =>
+    renderHistory(locale as keyof Locale),
+  );
+  window.addEventListener("storage", () =>
+    renderHistory(locale as keyof Locale),
+  );
+</script>
