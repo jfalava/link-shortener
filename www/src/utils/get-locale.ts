@@ -13,21 +13,29 @@ export type RequiredLocales = Record<keyof Locale, string>;
 const DEFAULT_LOCALE = "en";
 
 export const getLocale = (): keyof Locale => {
+  // is this being called from browser? if not, it will get called again client side
+  const isBrowser = typeof window !== "undefined";
+
+  if (!isBrowser) {
+    return DEFAULT_LOCALE;
+  }
+
   const userLocale =
     navigator.language || navigator.languages?.[0] || DEFAULT_LOCALE;
 
-  // locale to lowercase, handle cases like "pt-BR", "es-419", "en-US-u-va-posix"
-  const lowercaseLocale = new Intl.Locale(
-    userLocale,
-  ).language.toLowerCase() as keyof Locale;
+  try {
+    const lowercaseLocale = new Intl.Locale(
+      userLocale,
+    ).language.toLowerCase() as keyof Locale;
 
-  // dynamic fetch of locale keys as array
-  const validLocales = Object.keys(locale).map((key) =>
-    key.toLowerCase(),
-  ) as Array<keyof Locale>;
+    const validLocales = Object.keys(locale).map((key) =>
+      key.toLowerCase(),
+    ) as Array<keyof Locale>;
 
-  // is lowercased userLocale supported? if not, default to DEFAULT_LOCALE
-  return validLocales.includes(lowercaseLocale)
-    ? lowercaseLocale
-    : DEFAULT_LOCALE;
+    return validLocales.includes(lowercaseLocale)
+      ? lowercaseLocale
+      : DEFAULT_LOCALE;
+  } catch {
+    return DEFAULT_LOCALE;
+  }
 };

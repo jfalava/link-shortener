@@ -1,8 +1,21 @@
 ---
 import IndexLayout from "@/layouts/Index.astro";
+import { type Locale } from "@/utils/get-locale";
 
-import { getLocale } from "@/utils/get-locale";
-const locale = getLocale();
+const serverLocale =
+  (Astro.request.headers
+    .get("accept-language")
+    ?.split(",")[0]
+    ?.split("-")[0] as keyof Locale) || "en";
 ---
 
-<IndexLayout locale={locale} />
+<IndexLayout locale={serverLocale} client:load />
+
+<script>
+  import { getLocale } from "@/utils/get-locale";
+
+  const layout = document.querySelector("html");
+  if (layout) {
+    layout.lang = getLocale();
+  }
+</script>

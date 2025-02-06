@@ -1,11 +1,18 @@
 ---
-import { getLocale } from "@/utils/get-locale";
-const locale = getLocale();
+import { type Locale } from "@/utils/get-locale";
+
+const serverLocale =
+  (Astro.request.headers
+    .get("accept-language")
+    ?.split(",")[0]
+    ?.split("-")[0] as keyof Locale) || "en";
 
 import Main from "@/components/layout/Main.astro";
 
 import LeftArrow from "@/assets/LeftArrow.astro";
-const { default: ToS } = await import(`../components/tos/ToS.${locale}.mdx`);
+const { default: ToS } = await import(
+  `../components/tos/ToS.${serverLocale}.mdx`
+);
 ---
 
 <style is:global>
@@ -35,7 +42,7 @@ const { default: ToS } = await import(`../components/tos/ToS.${locale}.mdx`);
     padding-left: 10px;
   }
 </style>
-<Main locale={locale}>
+<Main locale={serverLocale}>
   <div class="flex justify-center">
     <div
       class="max-w-[90%] text-pretendard xl:text-balance hyphens-auto gap-x-3"
@@ -47,3 +54,11 @@ const { default: ToS } = await import(`../components/tos/ToS.${locale}.mdx`);
     <LeftArrow />
   </a>
 </Main>
+<script>
+  import { getLocale } from "@/utils/get-locale";
+
+  const layout = document.querySelector("html");
+  if (layout) {
+    layout.lang = getLocale();
+  }
+</script>
