@@ -9,8 +9,12 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<div id="history-section" class="my-8" data-locale={locale}>
-  <h2 class="text-xl text-pretendard font-bold mb-4">
+<div
+  id="history-section"
+  class="my-8 max-w-[clamp(300px,50vw,800px)]"
+  data-locale={locale}
+>
+  <h2 class="text-xl text-pretendard font-medium mb-4">
     {localizedLinkHistory[locale]}
   </h2>
   <div id="history-list" class="space-y-4 text-pretendard"></div>
