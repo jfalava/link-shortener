@@ -10,7 +10,7 @@ export const locale: Locale = {
 
 export type RequiredLocales = Record<keyof Locale, string>;
 
-const DEFAULT_LOCALE = "es";
+const DEFAULT_LOCALE = "en";
 
 export const getLocale = (): keyof Locale => {
   const userLocale =
@@ -18,12 +18,12 @@ export const getLocale = (): keyof Locale => {
 
   // locale to lowercase, handle cases like "pt-BR", "es-419", "en-US-u-va-posix"
   const lowercaseLocale = new Intl.Locale(
-    userLocale
+    userLocale,
   ).language.toLowerCase() as keyof Locale;
 
   // dynamic fetch of locale keys as array
   const validLocales = Object.keys(locale).map((key) =>
-    key.toLowerCase()
+    key.toLowerCase(),
   ) as Array<keyof Locale>;
 
   // is lowercased userLocale supported? if not, default to DEFAULT_LOCALE

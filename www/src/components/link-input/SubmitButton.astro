@@ -16,13 +16,13 @@ const { locale } = Astro.props;
   ariaBusy={false}
   ariaLabel={localizedShortenLinkButton[locale]}
 >
-  <div class="relative">
-    <p id="button-text" class="relative">
+  <div class="grid [grid-template-areas:'submitbutton'] z-0">
+    <p id="button-text" class="grid gap-y-3 visible [grid-area:submitbutton]">
       {localizedShortenLinkButton[locale]}
     </p>
     <div
       id="loading-spinner"
-      class="absolute opacity-0 inset-0 flex items-center justify-center"
+      class="grid gap-y-3 visible opacity-0 [grid-area:submitbutton] items-center justify-center"
     >
       <LoadingSpinner />
     </div>
@@ -31,29 +31,12 @@ const { locale } = Astro.props;
 
 <script>
   const button = document.getElementById("submit-button");
-  const toastTimeouts = new Map();
-  const toastStates = new Map();
+  import {
+    hideAllToasts,
+    showToastWithTimeout,
+  } from "@/utils/toast-visibility";
 
-  function showToastWithTimeout(toastElement: HTMLElement, duration: number) {
-    const isVisible = toastStates.get(toastElement);
-    const existingTimeout = toastTimeouts.get(toastElement);
-
-    if (isVisible && existingTimeout) {
-      clearTimeout(existingTimeout);
-    }
-
-    toastElement.classList.remove("invisible");
-    toastElement.classList.add("slide-in-out");
-    toastStates.set(toastElement, true);
-
-    const newTimeout = setTimeout(() => {
-      toastElement.classList.add("invisible");
-      toastElement.classList.remove("slide-in-out");
-      toastStates.set(toastElement, false);
-    }, duration);
-
-    toastTimeouts.set(toastElement, newTimeout);
-  }
+  hideAllToasts();
 
   async function handleSubmit() {
     const input = document.getElementById("long-url") as HTMLInputElement;
@@ -69,8 +52,8 @@ const { locale } = Astro.props;
     );
     const shortenedLink = document.getElementById("shortened-link");
     const badInputToast = document.getElementById("bad-input");
-    const kvLatencyToast = document.getElementById("kv-latency");
     const emptyInputToast = document.getElementById("empty-input");
+    const missingProtocolToast = document.getElementById("missing-protocol");
 
     if (
       !input ||
@@ -80,12 +63,11 @@ const { locale } = Astro.props;
       !shortenedLinkSection ||
       !shortenedLink ||
       !badInputToast ||
-      !kvLatencyToast ||
-      !emptyInputToast
+      !emptyInputToast ||
+      !missingProtocolToast
     ) {
       return;
     }
-
     const url = input.value;
 
     if (!url) {
@@ -105,19 +87,27 @@ const { locale } = Astro.props;
         body: JSON.stringify({ url }),
       });
 
-      const result = await response.json();
-      const key = result.key;
-      const shortenedUrl = `https://jfa.ovh/${key}`;
+      if (!response.ok) {
+        if (response.status === 422) {
+          const missingProtocolToast =
+            document.getElementById("missing-protocol");
+          if (missingProtocolToast) {
+            showToastWithTimeout(missingProtocolToast, 5000);
+          }
+          return;
+        }
+        showToastWithTimeout(badInputToast, 5000);
+        return;
+      }
 
+      const result = await response.json();
+      const shortenedUrl = `https://jfa.ovh/${result.key}`;
       submitLinkSection.classList.remove("visible");
       submitLinkSection.classList.add("invisible");
       shortenedLinkSection.classList.remove("invisible");
       shortenedLinkSection.classList.add("visible");
       shortenedLink.textContent = shortenedUrl;
-
-      showToastWithTimeout(kvLatencyToast, 5000);
     } catch (error) {
-      console.error("Error:", error);
       showToastWithTimeout(badInputToast, 5000);
     } finally {
       buttonText.style.opacity = "1";
@@ -131,5 +121,7 @@ const { locale } = Astro.props;
     }
   });
 
-  button?.addEventListener("click", handleSubmit);
+  button?.addEventListener("click", () => {
+    handleSubmit();
+  });
 </script>

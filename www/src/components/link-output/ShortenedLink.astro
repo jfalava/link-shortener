@@ -9,6 +9,7 @@ import {
 import CopyIcon from "@/assets/CopyIcon.astro";
 import OKIcon from "@/assets/OKIcon.astro";
 import Button from "@/components/elements/Button.astro";
+import ShareIcon from "@/assets/ShareIcon.astro";
 
 interface Props {
   locale: keyof Locale;
@@ -18,7 +19,7 @@ const { locale } = Astro.props;
 ---
 
 <div
-  class="grid gap-y-3 invisible [grid-area:shared]"
+  class="grid gap-y-3 invisible [grid-area:shared] z-10"
   id="shortened-link-section"
 >
   <div class="flex justify-center items-center gap-x-3">
@@ -29,15 +30,20 @@ const { locale } = Astro.props;
     </div>
     <button
       id="copy-button-element"
-      class="cursor-pointer"
+      class="cursor-pointer flex items-center"
       aria-label={localizedCopyButton[locale]}
       title={localizedCopyButton[locale]}
     >
-      <div class="relative">
-        <div class="relative" id="copy-button">
+      <div
+        class="grid grid-cols-2 gap-x-1 [grid-template-areas:'iconzone'] justify-items-center"
+      >
+        <div id="share-button">
+          <ShareIcon />
+        </div>
+        <div class="grid [grid-area:iconzone]" id="copy-button">
           <CopyIcon />
         </div>
-        <div class="absolute opacity-0 inset-0" id="ok-button">
+        <div class="grid [grid-area:iconzone] opacity-0" id="ok-button">
           <OKIcon />
         </div>
       </div>
@@ -48,57 +54,41 @@ const { locale } = Astro.props;
     ariaBusy={false}
     ariaLabel={localizedShortenMore[locale]}
   >
-    <p class="">{localizedShortenMore[locale]}</p>
+    <p>{localizedShortenMore[locale]}</p>
   </Button>
 </div>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const copyButton = document.querySelector("#copy-button");
-    const okButton = document.querySelector("#ok-button");
-    const shortenedLink = document.querySelector("#shortened-link");
-    const copyButtonElement = document.querySelector("#copy-button-element");
-    const shortenMoreLinksButton = document.querySelector<HTMLElement>(
-      "#shorten-more-links",
-    );
-    const shortenedLinkSection = document.querySelector(
-      "#shortened-link-section",
-    );
-    const submitLinkSection = document.querySelector("#submit-link-section");
-    const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
+  import { handleShare } from "@/utils/share-link";
+  import { handleCopy } from "@/utils/copy-link";
 
-    if (copyButtonElement) {
-      copyButtonElement.addEventListener("click", async () => {
-        const textToCopy = shortenedLink?.textContent;
-        if (!textToCopy) return;
+  handleShare();
+  handleCopy();
 
-        try {
-          await navigator.clipboard.writeText(textToCopy);
+  const shortenMoreLinksButton = document.querySelector<HTMLElement>(
+    "#shorten-more-links",
+  );
+  const shortenedLinkSection = document.querySelector(
+    "#shortened-link-section",
+  );
+  const submitLinkSection = document.querySelector("#submit-link-section");
+  const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
+  const shortenedLink = document.querySelector("#shortened-link");
 
-          if (copyButton && okButton) {
-            copyButton.classList.add("opacity-0", "inset-0");
-            okButton.classList.remove("opacity-0");
+  if (shortenMoreLinksButton) {
+    shortenMoreLinksButton.addEventListener("click", () => {
+      if (submitLinkSection && shortenedLinkSection && longUrlInput) {
+        submitLinkSection.classList.remove("invisible");
+        submitLinkSection.classList.add("visible");
 
-            setTimeout(() => {
-              copyButton.classList.remove("opacity-0", "inset-0");
-              okButton.classList.add("opacity-0");
-            }, 2000);
-          }
-        } catch (err) {
-          console.error("Failed to copy text: ", err);
+        shortenedLinkSection.classList.add("invisible");
+        shortenedLinkSection.classList.remove("visible");
+
+        longUrlInput.value = "";
+
+        if (shortenedLink) {
+          shortenedLink.textContent = "";
         }
-      });
-    }
-
-    if (shortenMoreLinksButton) {
-      shortenMoreLinksButton.addEventListener("click", () => {
-        if (submitLinkSection && shortenedLinkSection && longUrlInput) {
-          submitLinkSection.classList.remove("invisible");
-          submitLinkSection.classList.add("visible");
-          shortenedLinkSection.classList.remove("visible");
-          shortenedLinkSection.classList.add("invisible");
-          longUrlInput.value = ""; // clear the input field
-        }
-      });
-    }
-  });
+      }
+    });
+  }
 </script>
