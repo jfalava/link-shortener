@@ -7,35 +7,51 @@ KV database studies and proofs of concept
 ## The code
 
 - [Backend](/cloudflare/src/index.ts)
-
 - [Web Page](/www/)
 
 ## What it requires
 
 Core components:
 
-- Key-Value storage system for URL mappings and rate limiting
-- Serverless function or API endpoint capability
+- Cloudflare KV storage for URL mappings and rate limiting
+- Cloudflare Workers for serverless function
 - NodeJS `v18.17.1` or later for development
 
 Optional components:
 
-- Web hosting for the frontend UI
-- Reverse proxy for custom domain routing
+- Web hosting for the frontend UI (Astro)
+- Cloudflare custom domain routing
 
 ## How it works
 
 1. User submits a URL through the web interface
-2. Request validation occurs in two stages:
+2. Request validation occurs in multiple stages:
    - Client-side: Checks for empty input
-   - Server-side: Validates URL format and rate limiting
+   - Server-side:
+     - Validates URL format and protocol
+     - Enforces rate limiting (200 requests per 48 hours)
 3. System checks for existing shortened URLs to prevent duplicates
 4. For new URLs:
-   - Generates a unique `xxxxx` format key
-   - Stores URL with `90-day` expiration
-   - Returns key in `JSON` response
-5. Frontend constructs final shortened URL (`domain`/`key`)
-6. User receives copyable shortened URL with status notification
+   - Generates a unique 6-character random key
+   - Stores URL with 90-day expiration in KV storage
+   - Returns key in JSON response
+5. Frontend:
+   - Constructs shortened URL (`<your-domain>/<key>`)
+   - Saves to browser's local storage for history
+   - Provides copy and share buttons
+6. When accessing a shortened URL:
+   - Retrieves original URL from KV storage
+   - Redirects user with 302 status code
+
+## Features
+
+- URL deduplication to prevent multiple entries
+- Copy to clipboard functionality
+- Share button for mobile devices
+- Local history tracking
+- Rate limiting with Cloudflare KV
+- Input validation with protocol enforcement
+- Responsive UI with loading states
 
 ## How to deploy
 
@@ -75,7 +91,7 @@ name = "<your project name>"
 main = "src/index.ts"
 compatibility_date = "2025-01-29"
 compatibility_flags = ["nodejs_compat"]
-routes = [{ pattern = "<your domain>", custom_domain = true }]
+routes = [{ pattern = "<your-domain>", custom_domain = true }]
 
 [observability]
 enabled = true
