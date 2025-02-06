@@ -30,33 +30,37 @@ const { locale } = Astro.props;
     >
       <p id="shortened-link" class="text-mono font-light"></p>
     </div>
-    <button
-      id="copy-button-element"
-      class="cursor-pointer flex items-center"
-      aria-label={localizedCopyButton[locale]}
-      title={localizedCopyButton[locale]}
-    >
-      <div
-        class="grid grid-cols-2 gap-x-1 [grid-template-areas:'iconzone'] justify-items-center"
+    <div class="flex gap-x-1">
+      <button
+        id="share-button"
+        class="cursor-pointer flex items-center"
+        aria-label="Share Link"
       >
-        <div id="share-button">
-          <ShareIcon />
+        <ShareIcon />
+      </button>
+      <button
+        id="copy-button-element"
+        class="cursor-pointer flex items-center"
+        aria-label={localizedCopyButton[locale]}
+        title={localizedCopyButton[locale]}
+      >
+        <div class="grid [grid-template-areas:'iconzone'] justify-items-center">
+          <div class="grid [grid-area:iconzone]" id="copy-button">
+            <CopyIcon />
+          </div>
+          <div class="grid [grid-area:iconzone] opacity-0" id="ok-button">
+            <OKIcon />
+          </div>
         </div>
-        <div class="grid [grid-area:iconzone]" id="copy-button">
-          <CopyIcon />
-        </div>
-        <div class="grid [grid-area:iconzone] opacity-0" id="ok-button">
-          <OKIcon />
-        </div>
-      </div>
-    </button>
+      </button>
+    </div>
   </div>
   <Button
     id="shorten-more-links"
     ariaBusy={false}
     ariaLabel={localizedShortenMore[locale]}
   >
-    <p>{localizedShortenMore[locale]}</p>
+    <p class="text-pretendard">{localizedShortenMore[locale]}</p>
   </Button>
 </div>
 <div>
