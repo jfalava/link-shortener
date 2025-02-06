@@ -14,7 +14,7 @@ const generateRandomString = (): string => {
 
 const isAllowedOrigin = (origin: string | null): boolean => {
 	if (!origin) return false;
-	return origin.endsWith('.jfa.ovh') || origin.endsWith('.jfa.dev') || origin.endsWith('localhost:4321');
+	return origin.endsWith('.jfa.ovh') || origin.endsWith('.jfa.dev');
 };
 
 const getCorsHeaders = (request: Request): HeadersInit => {

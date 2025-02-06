@@ -44,7 +44,7 @@ export async function handleShortenLink(
 
     // if url is not local, ping the api
     const result = await shortenUrlViaApi(url);
-    const shortenedUrl = `http://127.0.0.1:8787/${result.key}`;
+    const shortenedUrl = `https://jfa.ovh/${result.key}`;
 
     updateUIWithNewEntry(
       submitLinkSection,
@@ -68,7 +68,7 @@ export async function handleShortenLink(
 }
 
 async function shortenUrlViaApi(url: string): Promise<{ key: string }> {
-  const response = await fetch("http://127.0.0.1:8787/api", {
+  const response = await fetch("https://jfa.ovh/api", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
