@@ -18,14 +18,26 @@
   font-display: swap;
 }
 @font-face {
+  font-family: "Pretendard";
+  src: url("https://static.jfa.dev/fonts/pretendard/pretendard-variable.woff2")
+    format("woff2");
+  font-display: swap;
+}
+@font-face {
   font-family: "Geist Mono";
   src: url("https://static.jfa.dev/fonts/geist/geist-mono-variable.woff2")
     format("woff2");
   font-display: swap;
 }
 
-.text-geist {
+.text-pretendard {
   font-family: "Geist", sans-serif;
+  font-weight: light;
+  font-style: normal;
+}
+
+.text-pretendard {
+  font-family: "Pretendard", sans-serif;
   font-weight: light;
   font-style: normal;
 }
