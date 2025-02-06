@@ -10,7 +10,9 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<div class="grid place-items-center gap-y-3 min-w-[clamp(300px,50vw,800px)]">
+<div
+  class="grid place-items-center gap-y-3 min-w-[clamp(300px,50vw,800px)] select-none max-xl:pt-6"
+>
   <div class="grid [grid-template-areas:'pagetitle']">
     <div class="grid [grid-area:pagetitle]">
       <Image
@@ -36,7 +38,7 @@ const { locale } = Astro.props;
     </div>
   </div>
   <div class="grid place-items-left">
-    <h1 class="text-pretendard xl:font-semibold text-3xl">
+    <h1 class="text-pretendard xl:font-bold text-3xl">
       {localizedPageTitle[locale]}
     </h1>
   </div>
