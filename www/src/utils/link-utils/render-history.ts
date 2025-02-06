@@ -26,8 +26,8 @@ export function renderHistory(locale: keyof Locale) {
     historyList.innerHTML = history
       .map(
         (entry: HistoryEntry) => `
-        <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.75rem; background-color: white;">
-          <div style="display: flex; justify-content: space-between; align-items: center; font-family: sans-serif;">
+        <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.75rem; background-color: #e0e0e0;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
             <div style="flex: 1; overflow: hidden; text-overflow: ellipsis;">
               <a href="${entry.shortUrl}" target="_blank" 
                  style="color: #3b82f6; text-decoration: none; display: block;"
@@ -35,11 +35,11 @@ export function renderHistory(locale: keyof Locale) {
                  onmouseout="this.style.textDecoration='none'">
                 ${entry.shortUrl}
               </a>
-              <div style="font-size: 0.875rem; color: #000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              <div style="font-size: 0.875rem; color: #121212; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                 ${entry.originalUrl}
               </div>
             </div>
-            <div style="font-size: 0.75rem; color: #000; margin-left: 0.5rem; white-space: nowrap;">
+            <div style="font-size: 0.75rem; color: #121212; margin-left: 0.5rem; white-space: nowrap;">
               ${new Date(entry.created).toLocaleDateString()}
             </div>
             <button
