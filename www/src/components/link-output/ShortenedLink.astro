@@ -79,20 +79,27 @@ const { locale } = Astro.props;
   const longUrlInput = document.querySelector<HTMLInputElement>("#long-url");
   const shortenedLink = document.querySelector("#shortened-link");
 
+  const handleShortenMore = () => {
+    if (submitLinkSection && shortenedLinkSection && longUrlInput) {
+      submitLinkSection.classList.remove("invisible");
+      submitLinkSection.classList.add("visible");
+
+      shortenedLinkSection.classList.add("invisible");
+      shortenedLinkSection.classList.remove("visible");
+
+      longUrlInput.value = "";
+
+      if (shortenedLink) {
+        shortenedLink.textContent = "";
+      }
+    }
+  };
+
   if (shortenMoreLinksButton) {
-    shortenMoreLinksButton.addEventListener("click", () => {
-      if (submitLinkSection && shortenedLinkSection && longUrlInput) {
-        submitLinkSection.classList.remove("invisible");
-        submitLinkSection.classList.add("visible");
-
-        shortenedLinkSection.classList.add("invisible");
-        shortenedLinkSection.classList.remove("visible");
-
-        longUrlInput.value = "";
-
-        if (shortenedLink) {
-          shortenedLink.textContent = "";
-        }
+    shortenMoreLinksButton.addEventListener("click", handleShortenMore);
+    shortenMoreLinksButton.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        handleShortenMore();
       }
     });
   }
