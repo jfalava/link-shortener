@@ -30,8 +30,10 @@ const { locale } = Astro.props;
 </Button>
 
 <script>
+  import type { Locale } from "@/utils/get-locale";
   import { hideAllToasts } from "@/utils/toast-visibility";
   import { handleShortenLink } from "@/utils/link-utils/shorten-link";
+  import { renderHistory } from "@/utils/link-utils/render-history";
 
   hideAllToasts();
 
@@ -47,6 +49,8 @@ const { locale } = Astro.props;
   const badInputToast = document.getElementById("bad-input");
   const emptyInputToast = document.getElementById("empty-input");
   const missingProtocolToast = document.getElementById("missing-protocol");
+  const historySection = document.getElementById("history-section");
+  const locale = historySection?.dataset.locale as keyof Locale;
 
   if (
     button &&
@@ -60,26 +64,8 @@ const { locale } = Astro.props;
     emptyInputToast &&
     missingProtocolToast
   ) {
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        handleShortenLink(
-          input,
-          buttonText,
-          loadingSpinner,
-          submitLinkSection,
-          shortenedLinkSection,
-          shortenedLink,
-          {
-            badInput: badInputToast,
-            emptyInput: emptyInputToast,
-            missingProtocol: missingProtocolToast,
-          },
-        );
-      }
-    });
-
-    button.addEventListener("click", () => {
-      handleShortenLink(
+    const updateHistoryAfterShorten = async () => {
+      await handleShortenLink(
         input,
         buttonText,
         loadingSpinner,
@@ -92,6 +78,17 @@ const { locale } = Astro.props;
           missingProtocol: missingProtocolToast,
         },
       );
+      renderHistory(locale as keyof Locale);
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        updateHistoryAfterShorten();
+      }
+    });
+
+    button.addEventListener("click", () => {
+      updateHistoryAfterShorten();
     });
   }
 </script>

@@ -59,6 +59,9 @@ const { locale } = Astro.props;
     <p>{localizedShortenMore[locale]}</p>
   </Button>
 </div>
+<div>
+  <LinkHistory locale={locale} />
+</div>
 <script>
   import { handleShare } from "@/utils/link-utils/share-link";
   import { handleCopy } from "@/utils/link-utils/copy-link";
