@@ -16,10 +16,12 @@ const { locale } = Astro.props;
   ariaBusy={false}
   ariaLabel={localizedShortenLinkButton[locale]}
 >
-  <div class="grid [grid-template-areas:'submitbutton'] z-0">
+  <div class="grid [grid-template-areas:'submitbutton'] z-0" role="button">
     <p
       id="button-text"
       class="text-pretendard grid gap-y-3 visible [grid-area:submitbutton] select-none"
+      aria-label={localizedShortenLinkButton[locale]}
+      title={localizedShortenLinkButton[locale]}
     >
       {localizedShortenLinkButton[locale]}
     </p>

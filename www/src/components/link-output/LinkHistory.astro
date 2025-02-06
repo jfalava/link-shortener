@@ -16,7 +16,7 @@ const { locale } = Astro.props;
   class="my-8 max-w-[clamp(300px,50vw,800px)]"
   data-locale={locale}
 >
-  <div class="flex items-center mb-4">
+  <div class="flex items-center mb-4 select-none">
     <History />
     <h2 class="text-xl text-pretendard font-medium pl-3">
       {localizedLinkHistory[locale]}
