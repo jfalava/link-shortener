@@ -9,7 +9,7 @@ const serverLocale =
     ?.split("-")[0] as keyof Locale) || "en";
 ---
 
-<IndexLayout locale={serverLocale} client:load />
+<IndexLayout locale={serverLocale} />
 
 <script>
   import { getLocale } from "@/utils/get-locale";
