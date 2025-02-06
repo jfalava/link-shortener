@@ -18,15 +18,8 @@
 }
 
 .slide-in-out {
+  visibility: visible;
   animation: slideInAndOut 5s ease-in-out forwards;
-}
-
-.toast {
-  position: fixed;
-  top: 0.75rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
 }
 
 .slide-in-out {

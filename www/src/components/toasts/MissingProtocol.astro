@@ -1,0 +1,23 @@
+---
+import type { Locale } from "@/utils/get-locale";
+import Toast from "@/components/elements/Toast.astro";
+
+import Missing from "@/assets/Missing.astro";
+
+import { localizedMissingProtocol } from "@/i18n/components/toasts/MissingProtocol.i18n";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Toast
+  toastContainerID="missing-protocol"
+  toastMessage={localizedMissingProtocol[locale]}
+  toastBorderColor="border-cyan-500"
+  toastTextColor="text-cyan-500"
+>
+  <Missing />
+</Toast>
