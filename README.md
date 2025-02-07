@@ -2,56 +2,21 @@
 
 KV database studies and proofs of concept
 
-## JFA Link Shortener [Terms of Use](https://link-shortener.jfa.dev/tos)
-
-## The code
-
-- [Backend](/cloudflare/src/index.ts)
-- [Web Page](/www/)
+## My implementation: "JFA Link Shortener" [Terms of Use](https://link-shortener.jfa.dev/tos)
 
 ## What it requires
 
 Core components:
 
-- Cloudflare KV storage for URL mappings and rate limiting
-- Cloudflare Workers for serverless function
-- NodeJS `v18.17.1` or later for development
-
-Optional components:
-
-- Web hosting for the frontend UI (Astro)
-- Cloudflare custom domain routing
+- A KV-like NoSQL database service, like AWS DynamoDB or Cloudflare KV
+- A serverless functions provider, like AWS Lambda or Cloudflare Workers
+- A way to interact with the API, like cURL or a frontend UI of any kind
 
 ## How it works
 
-1. User submits a URL through the web interface
-2. Request validation occurs in multiple stages:
-   - Client-side: Checks for empty input
-   - Server-side:
-     - Validates URL format and protocol
-     - Enforces rate limiting (200 requests per 48 hours)
-3. System checks for existing shortened URLs to prevent duplicates
-4. For new URLs:
-   - Generates a unique 6-character random key
-   - Stores URL with 90-day expiration in KV storage
-   - Returns key in JSON response
-5. Frontend:
-   - Constructs shortened URL (`<your-domain>/<key>`)
-   - Saves to browser's local storage for history
-   - Provides copy and share buttons
-6. When accessing a shortened URL:
-   - Retrieves original URL from KV storage
-   - Redirects user with 302 status code
+### [API docs](/cloudflare/README.md)
 
-## Features
-
-- URL deduplication to prevent multiple entries
-- Copy to clipboard functionality
-- Share button for mobile devices
-- Local history tracking
-- Rate limiting with Cloudflare KV
-- Input validation with protocol enforcement
-- Responsive UI with loading states
+### [Example frontend docs](/www/README.md)
 
 ## How to deploy
 
@@ -123,4 +88,5 @@ After deployment, your worker will be available at `your-worker.your-subdomain.w
 
 - [ ] AWS Lambda version of the API endpoint
 - [ ] IBM Cloud Functions version of the API endpoint
-- [ ] Terraform for required infrastructure in AWS and IBM Cloud
+- [ ] Self-hosted version of the code and the infrastructure required
+- [ ] IaaC deployments for AWS and IBM Cloud
