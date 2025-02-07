@@ -4,11 +4,9 @@ KV database studies and proofs of concept
 
 ## My implementation: "JFA Link Shortener" [Terms of Use](https://link-shortener.jfa.dev/tos)
 
-## What it requires
+## Requirements
 
-Core components:
-
-- A KV-like NoSQL database service, like AWS DynamoDB or Cloudflare KV
+- A KV-like NoSQL database, like AWS DynamoDB or Cloudflare KV
 - A serverless functions provider, like AWS Lambda or Cloudflare Workers
 - A way to interact with the API, like cURL or a frontend UI of any kind
 
@@ -23,7 +21,7 @@ Core components:
 <details>
 <summary>Cloudflare</summary>
 
-#### Prerequisites
+### Prerequisites
 
 - Cloudflare account with Workers enabled
 - Wrangler CLI (`npm install -g wrangler`)
@@ -31,9 +29,9 @@ Core components:
   - One for URL storage
   - One for rate limiting
 
-#### Steps
+### Steps
 
-1. Clone and setup:
+1. Clone and set up:
 
 ```bash
 $ git clone https://github.com/jfalava/link-shortener.git
@@ -42,14 +40,14 @@ $ npm install -g pnpm
 $ pnpm install
 ```
 
-2. Create KV namespaces in Cloudflare dashboard or via Wrangler:
+2. Create KV namespaces in Cloudflare dashboard or via the `wrangler cli`:
 
 ```bash
 $ pnpx wrangler kv:namespace create "URL_STORAGE"
 $ pnpx wrangler kv:namespace create "RATE_LIMIT"
 ```
 
-3. Configure wrangler.toml:
+3. Configure `wrangler.toml`:
 
 ```toml
 name = "<your project name>"
