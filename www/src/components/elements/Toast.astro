@@ -13,18 +13,20 @@ const { toastContainerID, toastMessage, toastBorderColor, toastTextColor } =
 
 <div id={toastContainerID} class="fixed invisible top-3">
   <div class="flex justify-center">
-    <div
-      class={`font-light px-3 py-2
-      border-2 border-solid ${toastBorderColor}
-      rounded-xl flex justify-evenly items-center bg-bwhite dark:bg-bblack
-      whitespace-nowrap`}
-    >
-      <div class={`pr-3 ${toastTextColor}`}>
-        <slot />
+    <div class="border-3 border-solid backdrop-blur-3xl border-white dark:border-black">
+      <div
+        class={`font-light px-3 py-2
+        border-2 border-solid ${toastBorderColor}
+        rounded-xl flex justify-evenly items-center bg-bwhite dark:bg-bblack
+        whitespace-nowrap`}
+      >
+        <div class={`pr-3 ${toastTextColor}`}>
+          <slot />
+        </div>
+        <p class={`text-pretendard max-sm:text-xs ${toastTextColor}`}>
+          {toastMessage}
+        </p>
       </div>
-      <p class={`text-pretendard max-sm:text-xs ${toastTextColor}`}>
-        {toastMessage}
-      </p>
     </div>
   </div>
 </div>
