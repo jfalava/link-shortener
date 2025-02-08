@@ -17,7 +17,7 @@ export const handleShare = async () => {
     try {
       await navigator.share({
         title: localizedShareLink[locale as unknown as keyof RequiredLocales],
-        text: textToShare,
+        text: localizedShareLink[locale as unknown as keyof RequiredLocales],
         url: textToShare,
       });
     } catch (err) {
