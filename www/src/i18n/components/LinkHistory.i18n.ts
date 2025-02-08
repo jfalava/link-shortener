@@ -9,3 +9,8 @@ export const localizedDeleteHistory: RequiredLocales = {
   es: "Borra esta entrada del historial",
   en: "Delete this entry from your history",
 };
+
+export const localizedClickToCopy: RequiredLocales = {
+  es: "Click para copiar el enlace",
+  en: "Click to copy the link",
+};

@@ -2,7 +2,7 @@
 import type { Locale } from "@/utils/get-locale";
 import { localizedLinkHistory } from "@/i18n/components/LinkHistory.i18n";
 
-import History from "@/assets/History.astro";
+import Link from "@/assets/Link.astro";
 
 interface Props {
   locale: keyof Locale;
@@ -17,7 +17,7 @@ const { locale } = Astro.props;
   data-locale={locale}
 >
   <div class="flex items-center mb-4 select-none">
-    <History />
+    <Link />
     <h2 class="text-xl text-pretendard font-medium pl-3">
       {localizedLinkHistory[locale]}
     </h2>
