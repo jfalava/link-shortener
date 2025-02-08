@@ -11,7 +11,7 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<div class="grid gap-y-3 visible [grid-area:shared]" id="submit-link-section">
+<div class="grid gap-y-3 visible [grid-area:shared] min-w-[clamp(350px,50vw,800px)]" id="submit-link-section">
   <TextInput locale={locale} />
   <SubmitButton locale={locale} />
 </div>

@@ -21,14 +21,14 @@ const { locale } = Astro.props;
 ---
 
 <div
-  class="grid gap-y-3 invisible [grid-area:shared] z-10"
+  class="grid gap-y-3 invisible [grid-area:shared] z-10 min-w-[clamp(350px,50vw,800px)]"
   id="shortened-link-section"
 >
   <div class="flex justify-center items-center gap-x-3">
     <div
-      class="flex-1 p-3 border border-solid border-bwhite dark:border-bblack rounded-xl overflow-x-scroll"
+      class="flex-1 p-3 border border-solid border-bwhite dark:border-bblack rounded-xl overflow-x-auto"
     >
-      <p id="shortened-link" class="text-mono font-light overflow-x-scroll"></p>
+      <p id="shortened-link" class="text-mono font-light whitespace-nowrap"></p>
     </div>
     <div class="flex gap-x-1">
       <button
