@@ -1,6 +1,7 @@
 ---
 import type { Locale } from "@/utils/get-locale";
 import { localizedLinkHistory } from "@/i18n/components/LinkHistory.i18n";
+import HistoryEntryTemplate from "@/components/link-output/HistoryEntryTemplate.astro";
 
 import Link from "@/assets/Link.astro";
 
@@ -24,7 +25,7 @@ const { locale } = Astro.props;
   </div>
   <div id="history-list" class="space-y-4 text-pretendard"></div>
 </div>
-
+<HistoryEntryTemplate/>
 <script>
   import type { Locale } from "@/utils/get-locale";
   import {
