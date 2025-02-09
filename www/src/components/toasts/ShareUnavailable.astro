@@ -1,0 +1,23 @@
+---
+import type { Locale } from "@/utils/get-locale";
+import Toast from "@/components/elements/Toast.astro";
+
+import ShareUnavailableIcon from "@/assets/ShareUnavailable.astro";
+
+import { localizedShareUnavailable } from "@/i18n/components/toasts/ShareUnavailable.i18n";
+
+interface Props {
+  locale: keyof Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Toast
+  toastContainerID="share-unavailable"
+  toastMessage={localizedShareUnavailable[locale]}
+  toastBorderColor="border-grey-600"
+  toastTextColor="text-grey-500"
+>
+  <ShareUnavailableIcon />
+</Toast>

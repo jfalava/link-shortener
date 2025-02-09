@@ -3,7 +3,7 @@ import type { Locale } from "@/utils/get-locale";
 import { localizedLinkHistory } from "@/i18n/components/LinkHistory.i18n";
 import HistoryEntryTemplate from "@/components/link-output/HistoryEntryTemplate.astro";
 
-import Link from "@/assets/Link.astro";
+import History from "@/assets/History.astro";
 
 interface Props {
   locale: keyof Locale;
@@ -18,14 +18,14 @@ const { locale } = Astro.props;
   data-locale={locale}
 >
   <div class="flex items-center mb-4 select-none">
-    <Link />
+    <History />
     <h2 class="text-xl text-pretendard font-medium pl-3">
       {localizedLinkHistory[locale]}
     </h2>
   </div>
   <div id="history-list" class="space-y-4 text-pretendard"></div>
 </div>
-<HistoryEntryTemplate/>
+<HistoryEntryTemplate />
 <script>
   import type { Locale } from "@/utils/get-locale";
   import {

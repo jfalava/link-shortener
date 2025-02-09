@@ -1,5 +1,6 @@
 import { locale, type RequiredLocales } from "@/utils/get-locale";
 import { localizedShareLink } from "@/i18n/utils/share-link.i18n";
+import { showToastWithTimeout } from "@/utils/toast-visibility";
 
 export const handleShare = async () => {
   const shareButton = document.querySelector("#share-button");
@@ -11,6 +12,11 @@ export const handleShare = async () => {
 
     if (!navigator.share) {
       console.warn("Web Share API not supported");
+      const shareUnavailableToast =
+        document.getElementById("share-unavailable");
+      if (shareUnavailableToast instanceof HTMLElement) {
+        showToastWithTimeout(shareUnavailableToast, 3000);
+      }
       return;
     }
 
