@@ -1,8 +1,8 @@
 import type { RequiredLocales } from "@/utils/get-locale";
 
 export const localizedTextInputPlaceholder: RequiredLocales = {
-  es: "https://... tu enlace aquí",
-  en: "https://... your link here",
+  es: "Escribe o pega tu enlace aquí",
+  en: "Write or paste your link here",
 };
 
 export const localizedShortenLinkButton: RequiredLocales = {
