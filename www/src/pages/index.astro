@@ -1,6 +1,15 @@
 ---
-import IndexLayout from "@/layouts/Index.astro";
-import { type Locale } from "@/utils/get-locale";
+import type { Locale } from "@/utils/get-locale";
+
+import Master from "@/layouts/Master.astro";
+import Main from "@/components/layout/Main.astro";
+
+import ToastContainer from "@/components/ToastContainer.astro";
+
+import PageTitle from "@/components/PageTitle.astro";
+import SubmitLink from "@/components/SubmitLink.astro";
+
+import ShortenedLink from "@/components/link-output/ShortenedLink.astro";
 
 const serverLocale =
   (Astro.request.headers
@@ -9,7 +18,18 @@ const serverLocale =
     ?.split("-")[0] as keyof Locale) || "en";
 ---
 
-<IndexLayout locale={serverLocale} />
+<Master locale={serverLocale}>
+  <ToastContainer locale={serverLocale} />
+  <Main locale={serverLocale}>
+    <div class="grid gap-y-6">
+      <PageTitle locale={serverLocale} />
+      <div class="[grid-template-areas:'shared'] grid">
+        <SubmitLink locale={serverLocale} />
+        <ShortenedLink locale={serverLocale} />
+      </div>
+    </div>
+  </Main>
+</Master>
 
 <script>
   import { getLocale } from "@/utils/get-locale";
