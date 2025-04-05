@@ -16,13 +16,13 @@ const { locale } = Astro.props;
     aria-label={localizedTextInputPlaceholder[locale]}
     required
     placeholder={`🔗 ${localizedTextInputPlaceholder[locale]}`}
-    class="w-full text-mono font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-xl select-none pr-10"
+    class="w-full text-mono font-light p-3 border border-solid border-bwhite dark:border-bblack rounded-xl select-none pr-14 sm:pr-10"
   />
   <button
     type="button"
     id="clear-input"
     aria-label="Clear input"
-    class="absolute cursor-pointer right-3 top-1/2 -translate-y-1/2 hidden bg-bwhite hover:bg-bwhite/70 dark:bg-bblack hover:dark:bg-bblack/70 rounded-full"
+    class="absolute cursor-pointer right-3 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none bg-bwhite hover:bg-bwhite/70 dark:bg-bblack hover:dark:bg-bblack/70 rounded-full transition-opacity"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -30,13 +30,16 @@ const { locale } = Astro.props;
       height="28"
       class="dark-invert"
       viewBox="0 0 24 24"
-      ><path
+    >
+      <path
         fill="none"
         stroke="currentColor"
         stroke-linecap="round"
         stroke-width="1.5"
-        d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"></path></svg
-    >
+        d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
+      >
+      </path>
+    </svg>
   </button>
 </div>
 
@@ -47,17 +50,19 @@ const { locale } = Astro.props;
   const clearButton = document.getElementById("clear-input");
 
   input.addEventListener("input", () => {
-    if (input.value) {
-      clearButton?.classList.remove("hidden");
-    } else {
-      clearButton?.classList.add("hidden");
+    if (clearButton) {
+      if (input.value.trim()) {
+        clearButton.classList.remove("opacity-0", "pointer-events-none");
+      } else {
+        clearButton.classList.add("opacity-0", "pointer-events-none");
+      }
     }
   });
 
   clearButton?.addEventListener("click", () => {
     if (input) {
       input.value = "";
-      clearButton.classList.add("hidden");
+      clearButton.classList.add("opacity-0", "pointer-events-none");
       input.focus();
     }
   });
