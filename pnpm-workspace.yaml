@@ -1,3 +1,7 @@
 packages:
-  - "www"
-  - "cloudflare"
+  - www
+  - cloudflare
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - workerd
